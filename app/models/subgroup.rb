@@ -3,4 +3,6 @@ class Subgroup < ApplicationRecord
   has_many :user_subgroups
   has_many :users, through: :user_subgroups
   has_many :events
+
+  validates :name, :description, presence: true
 end

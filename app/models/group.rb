@@ -3,5 +3,7 @@ class Group < ApplicationRecord
   has_many :users, through: :user_groups
   has_many :subgroups
   has_many :events
+
+  validates :name, :description, presence: true
   
 end

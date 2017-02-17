@@ -1,0 +1,9 @@
+<h1>edit this user</h1>
+
+<%= form_tag "/users/:id/edit", method: :patch do %>
+  <p>First Name: <input type="text" name="first_name" value="<%= @user.first_name %>"></p>
+  <p>Last Name: <input type="text" name="last_name" value="<%= @user.last_name %>"></p>
+  <p>Email: <input type="email" name="email" value="<%= @user.email %>"></p>
+  <p><input type="submit" name="Update User info"></p>
+
+  <% end %>

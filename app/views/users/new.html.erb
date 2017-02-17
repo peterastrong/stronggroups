@@ -1,0 +1,12 @@
+<h1>Create a new user</h1>
+
+<%= form_tag "/users", method: :post do %>
+  <p>First Name: <input type="text" name="first_name"></p>
+  <p>Last Name: <input type="text" name="last_name"></p>
+  <p>Email: <input type="email" name="email"></p>
+  <p>Enter Password: <input type="password" name="password"></p>
+  <p>Re-enter Password: <input type="password" name="password_confirmation"></p>
+  <p><input type="submit" value="Create a user"></p>
+
+
+  <% end  %>

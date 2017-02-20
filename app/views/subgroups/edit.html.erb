@@ -1,0 +1,10 @@
+<h1>edit: </h1>
+<%= @subgroup.name %>
+<%= form_tag "/subgroups", method: :post do %>
+  <p>name: <input type="text" name="name" value="<%= @subgroup.name %>"></p>
+  <p>Description: <input type="text" name="description" value="<%= @subgroup.description %>"></p>
+  <p><input type="submit" Value="Update"></p>
+
+  <% end %>
+
+    <%= link_to "Delete this subgroup", "/subgroups/#{@subgroup.id}", method: :delete %>

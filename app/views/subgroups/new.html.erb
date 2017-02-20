@@ -1,0 +1,11 @@
+create a new subgroup
+
+
+
+<%= form_tag "/groups", method: :post do %>
+  <p>group id <input type="text" name="group_id"></p> <!-- need to take away this input later: the group id should get assigned automatically when the subgroup is created  -->
+  <p>name: <input type="text" name="name"></p>
+  <p>Description: <input type="text" name="description"></p>
+  <p><input type="submit" Value="Create"></p>
+
+  <% end %>

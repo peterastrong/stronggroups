@@ -22,8 +22,15 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find_by(id: params[:id])
-    @user.assign_attributes()
+    @user.assign_attributes(email: params[:email])
+    @user.save
+    redirect_to "/users/#{@user.id}"
+  end
 
+  def destroy
+    @user = User.find_by(id: params[:id])
+    @user.destroy
+    redirect_to "/users/new" #can change later
   end
 
 end

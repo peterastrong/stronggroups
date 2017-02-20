@@ -1,0 +1,14 @@
+<p>create a new event, just add in the values you need to use with your event, poject, or assignment</p>
+
+<%= form_tag "/events", method: :post do %>
+  <p>Please Choose either or both Group and Subgroup ID</p>
+  <p> Group ID: <input type="text" name="group_id"> </p>
+  <p> Subgroup ID: <input type="text" name="subgroup_id"> </p>
+  <p> Name: <input type="text" name="name"> </p>
+  <p> Event Date / Start Date: <input type="date" name="date"> </p>
+  <p> Description: <input type="text" name="description"> </p>
+  <p> Registration Deadline: <input type="date" name="registration_deadline"> </p>
+  <p> Due Date / End Date: <input type="date" name="due_date"> </p>
+  <p> <input type="submit" name="Add Event."> </p>
+  
+  <% end %>

@@ -1,0 +1,10 @@
+<h1>edit: </h1>
+<%= @group.name %>
+<%= form_tag "/groups", method: :post do %>
+  <p>name: <input type="text" name="name" value="<%= @group.name %>"></p>
+  <p>Description: <input type="text" name="description" value="<%= @group.description %>"></p>
+  <p><input type="submit" Value="Update"></p>
+
+  <% end %>
+
+    <%= link_to "Delete this group", "/groups/#{@group.id}", method: :delete %>

@@ -1,0 +1,14 @@
+<%= form_tag "/events/#{@event.id}", method: :patch do %>
+ 
+  <p>Group ID: <input type="text" name="group_id" value="<%= @event.group_id %>"></p>
+  <p>Subgroup ID: <input type="text" name="subgroup_id" value="<%= @event.subgroup_id %>"></p>
+  <p>Name: <input type="text" name="name" value="<%= @event.name %>"></p>
+  <p>Date: <input type="text" name="date" value="<%= @event.date %>"></p>
+  <p>Description: <input type="text" name="description" value="<%= @event.description %>"></p>
+  <p>Registration Deadline: <input type="text" name="registration_deadline" value="<%= @event.registration_deadline %>"></p>
+  <p>Due Date: <input type="text" name="due_date" value="<%= @event.due_date %>"></p>
+  <p><input type="submit" value="Update event info"></p>
+
+  <% end %>
+
+  <%= link_to "Delete this account", "/events/#{@event.id}", method: :delete %>

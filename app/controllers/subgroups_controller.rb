@@ -1,5 +1,5 @@
 class SubgroupsController < ApplicationController
-
+  before_action :authenticate_user!
   def new
     @subgroup = Subgroup.new
     render "new.html.erb"

@@ -9,6 +9,12 @@ Rails.application.routes.draw do
   patch "/users/:id", to: "users#update"
   delete "/users/:id", to: "users#destroy"
 
+  #sessions 
+
+  get "/login", to: "sessions#new"
+  post "/login", to: "sessions#create"
+  get "/logout", to: "sessions#destroy"
+
   #events
 
   get "/events", to: "events#index"
@@ -35,6 +41,10 @@ Rails.application.routes.draw do
   get "/subgroups/:id/edit", to: "subgroups#edit"
   patch "/subgroups", to: "subgroups#update"
   delete "/subgroups/:id", to: "subgroups#destroy"
+
+  #user_groups
+  get "/user_groups/new", to: "user_groups#new"
+  post "/user_groups", to: "user_groups#create"
 
 
 end

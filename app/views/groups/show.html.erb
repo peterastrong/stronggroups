@@ -5,3 +5,14 @@
 
 <%= link_to "update", "/groups/#{@group.id}/edit"  %>
 
+
+<%= form_tag "/user_groups", method: :post do %>
+  
+  <div>email: <input type="email" name="email"></div>
+
+  <input type="hidden" name="<%= @group.id %>">
+
+  <input type="submit" name="Add UserGroup relationship">
+
+  <% end %>
+

@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!, except: [:new, :create]
+
   def new
     @user = User.new
     render "new.html.erb"
@@ -32,5 +34,6 @@ class UsersController < ApplicationController
     @user.destroy
     redirect_to "/users/new" #can change later
   end
+
 
 end

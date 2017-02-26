@@ -1,2 +1,10 @@
 <h1>this is event number <%= @event.id %></h1>
 <p><%= @event.name %></p>
+
+<h3>add a participant to the event</h3>
+
+<%= form_tag "/user_events", method: :post do %>
+  <div>email: <input type="email" name="email"></div>
+  <div><input type="hidden" name="event_id" value="<%= @event.id %>"></div>
+  <div><input type="submit" value="Add User to event"></div>
+<% end %>

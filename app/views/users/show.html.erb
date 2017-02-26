@@ -1,5 +1,48 @@
+
 <h1>a user</h1>
 
 <p> the users name is <%= @user.first_name %></p>
+
+  <h3> Groups: </h3>
+  <div>
+    <% @user.groups.each do |group| %>
+       <p>* <%= group.name %>: <%= group.description %></p>  
+    <% end %>
+  </div>
+
+
+  <h3> Subgroups: </h3>
+  <div>
+    <% @user.subgroups.each do |subgroup| %>
+      <p>* <%= subgroup.name %>: <%= subgroup.description %></p>
+    <% end %>
+  </div>
+
+<% if @user.events.where.not(group_id: nil).empty? == false %>
+
+  <h3> Group Events: </h3>
+  <div> 
+    <% @user.events.group_by(&:group_id).each do |group_id, events| %>
+      <h3><%= Group.find(group_id).name %> Events:</h3>
+      <% events.each do |event| %>
+        <p>Event Name: <%= event.name %></p>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+
+<% if @user.events.where.not(subgroup_id: nil).empty? == false %>
+  <h3> SubGroup Events: </h3>
+  <div> 
+    <% @user.events.group_by(&:subgroup_id).each do |subgroup_id, events| %>
+      <h3><%= Subgroup.find(subgroup_id).name %> Events:</h3>
+      <% events.each do |event| %>
+        <p>Event Name: <%= event.name %></p>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+ 
 
 <a href="/logout"> Logout.</a>

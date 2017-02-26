@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  
   #users
   get "/users/new", to: "users#new"
   post "/users", to: "users#create"
-  get "/users/:id", to: "users#show"
+  get "/user", to: "users#show"
   get "/users/:id/edit", to: "users#edit"
   patch "/users/:id", to: "users#update"
   delete "/users/:id", to: "users#destroy"
@@ -46,5 +47,12 @@ Rails.application.routes.draw do
   get "/user_groups/new", to: "user_groups#new"
   post "/user_groups", to: "user_groups#create"
 
+  #user_subgroups
+  get "/user_subgroups/new", to: "user_groups#new"
+  post "/user_subgroups", to: "user_subgroups#create"
+
+  #user_events
+  get "/user_events/new", to: "user_events#new"
+  post "/user_events", to: "user_events#create"
 
 end

@@ -1,2 +1,15 @@
 a subgroup
 <p><%= @subgroup.name %></p>
+
+
+<%= link_to "update", "/subgroups/#{@subgroup.id}/edit"  %>
+
+<h3>Add a user to this group by their email address.  </h3>
+<%= form_tag "/user_subgroups", method: :post do %>
+  
+  <div>email: <input type="email" name="email"></div>
+ 
+  <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
+  <input type="submit" value="Add User Subgroup relationship">
+
+  <% end %>

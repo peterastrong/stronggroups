@@ -1,0 +1,21 @@
+<% @subgroups.each do |subgroup| %>
+  <h2>-<%= subgroup.name.capitalize %> Membership</h2>
+  <h5>Admins for this subgroup:</h5>
+    <% subgroup.users.each do |user| %>
+      <% if user.admin?(subgroup.group.id) %>
+        <p><%= user.first_name %></p>
+      <% end %>
+    <% end %>
+  <h5>Editors for this subgroup:</h5>
+    <% subgroup.users.each do |user| %>
+      <% if user.editor?(subgroup.group.id) %>
+        <p><%= user.first_name %></p>
+      <% end %>
+    <% end %>
+  <h5>Members of this subgroup:</h5>
+    <% subgroup.users.each do |user| %>
+      <% if user.member?(subgroup.group.id) %>
+        <p><%= user.first_name %></p>
+      <% end %>
+    <% end %>
+<% end %>

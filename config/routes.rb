@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root to: "pages#index"
 
+  #landing page
+  get "/landing", to: "pages#index"
   
   #users
   get "/users/new", to: "users#new"
@@ -27,7 +30,7 @@ Rails.application.routes.draw do
   delete "/events/:id", to: "events#destroy"
 
   #groups
-
+  get "groups", to: "groups#index"
   get "/groups/new", to: "groups#new"
   post "/groups", to: "groups#create"
   get "/groups/:id", to: "groups#show"
@@ -36,6 +39,7 @@ Rails.application.routes.draw do
   delete "/groups/:id", to: "groups#destroy"
 
   #subgroups 
+  get "subgroups", to: "subgroups#index"
   get "/subgroups/new", to: "subgroups#new"
   post "/subgroups", to: "subgroups#create"
   get "/subgroups/:id", to: "subgroups#show"

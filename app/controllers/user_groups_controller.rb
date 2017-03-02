@@ -10,7 +10,4 @@ class UserGroupsController < ApplicationController
     @user_group.save
     redirect_to "groups/#{params[:group_id]}"
   end
-
-
-
 end

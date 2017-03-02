@@ -11,6 +11,19 @@ class User < ApplicationRecord
   validates :first_name, :last_name, :email, presence: true
   validates :email, uniqueness: true 
 
+  def admin?(group_id)
+    user_group = user_groups.find_by(group_id: group_id)
+    user_group ? user_group.admin? : false
+  end
 
+  def editor?(group_id)
+    user_group = user_groups.find_by(group_id: group_id)
+    user_group ? user_group.editor? : false
+  end
+
+  def member?(group_id)
+    user_group = user_groups.find_by(group_id: group_id)
+    user_group ? user_group.member? : false
+  end
   
 end

@@ -1,0 +1,27 @@
+<% @groups.each do |group| %>
+  <h1><%= group.name.capitalize %> Membership</h1>
+  <h3>Admins for this group:</h3>
+    <% group.users.each do |user| %>
+      <% if user.admin?(group.id) %>
+        <p><%= user.first_name %></p>
+      <% end %>
+    <% end %>
+  <h3>Editors for this group:</h3>
+    <% group.users.each do |user| %>
+      <p>
+        <% if user.editor?(group.id) %>
+          <%= user.first_name %>
+        <% end %>
+      </p>
+    <% end %>
+  <h3>Members for this group:</h3>
+    <% group.users.each do |user| %>
+      <p>
+        <% if user.member?(group.id) %>
+          <%= user.first_name %>
+        <% end %>
+      </p>
+    <% end %>
+  <hr>
+<% end %>
+

@@ -13,10 +13,9 @@ class UsersController < ApplicationController
   end
 
   def show
-    
-      @user = User.find_by(id: current_user.id)
-      
-      render "show.html.erb"
+    @user = User.find_by(id: current_user.id)
+    @groups = @user.groups #not currently in use on show page (3/1/17)
+    render "show.html.erb"
   end
 
   def edit

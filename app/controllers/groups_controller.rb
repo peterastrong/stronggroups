@@ -1,5 +1,10 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
+
+  def index
+    @groups = Group.all
+    render "index.html.erb"
+  end
   
   def new
     @group = Group.new

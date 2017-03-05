@@ -25,5 +25,9 @@ class User < ApplicationRecord
     user_group = user_groups.find_by(group_id: group_id)
     user_group ? user_group.member? : false
   end
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
   
 end

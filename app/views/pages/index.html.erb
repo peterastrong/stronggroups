@@ -1,97 +1,106 @@
-<!-- /.parallax full screen background image -->
-<div class="fullscreen landing parallax" style="background-image:url('images/bg3.jpg');" data-img-width="2000" data-img-height="1333" data-diff="100">
+<div ng-app="app">
+    <div ng-controller="angularCtrl">
+        <!-- /.parallax full screen background image -->
+        <div class="fullscreen landing parallax" style="background-image:url('images/bg3.jpg');" data-img-width="2000" data-img-height="1333" data-diff="100">
 
-    <div class="overlay">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-7">
+            <div class="overlay">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-7">
 
-                    <!-- /.logo -->
-                    <div class="logo wow fadeInDown">
-                        <a href=""><img src="images/logo2.png" alt="logo"></a>
+                            <!-- /.logo -->
+                            <div class="logo wow fadeInDown">
+                                <a href=""><img src="images/logo2.png" alt="logo"></a>
+                            </div>
+
+                            <!-- /.main title -->
+                            <h1 class="wow fadeInLeft">
+                                Beautiful Theme For <span class="color">VTC</span> Business
+                            </h1>
+
+                            <!-- /.header paragraph -->
+                            <div class="landing-text wow fadeInUp">
+                                <p>VTC Theme is a modern and customizable HTML5 theme designed to increase conversion of your Business. VTC Theme is flexible to suit any kind of your business. Try now and join with our happy customers!</p>
+                            </div>          
+
+                            <!-- /.header button -->
+                            <div class="head-btn wow fadeInLeft">
+                                <a href="blog.html" class="btn btn-primary">Read more</a>
+                                <a href="my-account.html" class="btn btn-default">My account</a>
+                            </div>
+
+
+                        </div> 
+
+                        <!-- /.signup form -->
+                        <div class="col-md-5">
+
+                            <div class="signup-header wow fadeInUp">
+                                <h3 class="form-title text-center">New User SignUp</h3>
+                                <form class="form-header" action="booking-step-two.html"  method="POST" id="bookingForm"> 
+                                    <div id="booking_control" class="booking_control">
+                                        <div class="form-group">
+                                            <input class="form-control input-lg" id="picking_up" type="text" placeholder="First Name" ng-model="firstName" required> 
+                                        </div> 
+                                        <div class="form-group">
+                                            <input class="form-control input-lg" id="pick_up_date" type="text" placeholder="Last Name" ng-model="lastName" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input class="form-control input-lg" id="dropping_off" type="email" placeholder="email" ng-model="email" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input class="form-control input-lg" id="dropping_off" type="password" placeholder="password" ng-model="password" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input class="form-control input-lg" id="dropping_off" type="password" placeholder="password confirmation" ng-model="passwordConfirmation" required>
+                                        </div>
+
+                                        <div class="form-group last">
+                                            <input type="button" id="find_direction" class="btn btn-warning btn-block btn-lg" ng-click="createUser(firstName, lastName, email, password, passwordConfirmation)" value="Join!">
+                                            <i class="load_icon pe-7s-refresh pe-spin directionLoad display_none"> </i>
+                                        </div>
+                                    </div>
+
+                                    <div id="result_content" class="result_content display_none"> 
+                                        <div class="">
+                                            <ul class="report">
+                                                <li><strong>Picking up   :</strong><b class="b-picking-up"></b></li>
+                                                <li><strong>Dropping off :</strong><b class="b-dropping-off"></b></li>
+                                                <li><strong>Date / Time  : </strong><b class="b-time"></b></li>
+                                                <li><strong>Distance     : </strong><b class="b-distance"></b></li>                                                  
+                                                <li class="hr"></li>
+                                                <li><strong>Price HT     : </strong><b class="b-price-ht"></b></li> 
+                                                <li><strong>Price TVA    : </strong><b class="b-price-tva"></b></li>
+                                                <li><strong>Price TTC    : </strong><b class="b-price-ttc"></b></li> 
+                                            </ul>
+                                        </div>
+                                        <div class="">
+                                            <div class="col-lg-6">
+                                                <div class="form-group last">
+                                                    <input id="show_map" type="button" class="btn btn-warning btn-block btn-lg" value="Show the map">
+                                                </div> 
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group last">
+                                                    <input  id="next_step"  type="button" class="btn btn-warning btn-block btn-lg" value="Next ">
+                                                </div> 
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class="map_div display_none">
+                                        <a class="close_map"><i class="pe-7s-close"></i></a>
+                                        <div id="map_canvas" class="map_div"></div> 
+                                    </div>                                    
+                                </form>
+                            </div>        
+
+                        </div>
                     </div>
-
-                    <!-- /.main title -->
-                    <h1 class="wow fadeInLeft">
-                        Beautiful Theme For <span class="color">VTC</span> Business
-                    </h1>
-
-                    <!-- /.header paragraph -->
-                    <div class="landing-text wow fadeInUp">
-                        <p>VTC Theme is a modern and customizable HTML5 theme designed to increase conversion of your Business. VTC Theme is flexible to suit any kind of your business. Try now and join with our happy customers!</p>
-                    </div>          
-
-                    <!-- /.header button -->
-                    <div class="head-btn wow fadeInLeft">
-                        <a href="blog.html" class="btn btn-primary">Read more</a>
-                        <a href="my-account.html" class="btn btn-default">My account</a>
-                    </div>
-
-
                 </div> 
-
-                <!-- /.signup form -->
-                <div class="col-md-5">
-
-                    <div class="signup-header wow fadeInUp">
-                        <h3 class="form-title text-center">Quote & Reservation</h3>
-                        <form class="form-header" action="booking-step-two.html"  method="POST" id="bookingForm"> 
-                            <div id="booking_control" class="booking_control">
-                                <div class="form-group">
-                                    <input class="form-control input-lg" name="picking_up" id="picking_up" type="text" placeholder="Picking up" required>
-                                    <a class="btn-geolocation btn-geolocation1" onclick="getLocation()" href="#"><i class="pe-7s-map-marker"></i></a>
-                                </div> 
-                                <div id="date_time" class="form-group">
-                                    <input class="form-control input-lg" name="pick_up_date" id="pick_up_date" type="text" placeholder="Pick up date" required>
-                                    <a class="add-on btn-geolocation btn-calendar" href="#"><i class="pe-7s-date"></i></a>
-                                </div>
-
-                                <div class="form-group">
-                                    <input class="form-control input-lg" name="dropping_off" id="dropping_off" type="text" placeholder="Dropping off" required>
-                                    <a class="btn-geolocation btn-geolocation2" onclick="getLocationDestination()" href="#"><i class="pe-7s-map-marker"></i></a>
-                                </div>
-
-                                <div class="form-group last">
-                                    <input type="button" id="find_direction" class="btn btn-warning btn-block btn-lg" value="FIND DIRECTION">
-                                    <i class="load_icon pe-7s-refresh pe-spin directionLoad display_none"> </i>
-                                </div>
-                            </div>
-
-                            <div id="result_content" class="result_content display_none"> 
-                                <div class="">
-                                    <ul class="report">
-                                        <li><strong>Picking up   :</strong><b class="b-picking-up"></b></li>
-                                        <li><strong>Dropping off :</strong><b class="b-dropping-off"></b></li>
-                                        <li><strong>Date / Time  : </strong><b class="b-time"></b></li>
-                                        <li><strong>Distance     : </strong><b class="b-distance"></b></li>                                                  
-                                        <li class="hr"></li>
-                                        <li><strong>Price HT     : </strong><b class="b-price-ht"></b></li> 
-                                        <li><strong>Price TVA    : </strong><b class="b-price-tva"></b></li>
-                                        <li><strong>Price TTC    : </strong><b class="b-price-ttc"></b></li> 
-                                    </ul>
-                                </div>
-                                <div class="">
-                                    <div class="col-lg-6">
-                                        <div class="form-group last">
-                                            <input id="show_map" type="button" class="btn btn-warning btn-block btn-lg" value="Show the map">
-                                        </div> 
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group last">
-                                            <input  id="next_step"  type="button" class="btn btn-warning btn-block btn-lg" value="Next ">
-                                        </div> 
-                                    </div>
-                                </div> 
-                            </div>
-                            <div class="map_div display_none">
-                                <a class="close_map"><i class="pe-7s-close"></i></a>
-                                <div id="map_canvas" class="map_div"></div> 
-                            </div>                                    
-                        </form>
-                    </div>        
-
-                </div>
-            </div>
-        </div> 
-    </div> 
+            </div> 
+        </div>
+    </div>
 </div>

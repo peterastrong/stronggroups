@@ -13,6 +13,14 @@ Rails.application.routes.draw do
   patch "/users/:id", to: "users#update"
   delete "/users/:id", to: "users#destroy"
 
+  namespace :api do
+    namespace :v1 do 
+      get "/users", to: "users#index"
+      post "/users", to: "users#create"
+
+    end 
+  end 
+
   #sessions 
 
   get "/login", to: "sessions#new"

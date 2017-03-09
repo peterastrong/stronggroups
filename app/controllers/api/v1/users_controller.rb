@@ -6,13 +6,9 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     @user = User.new(first_name: params[:first_name], last_name: params[:last_name], email: params[:email], password: params[:password], password_confirmation: params[:password_confirmation])
-    if @user.save
-      flash[:success] = "the new user has been saved"
-      
-    else 
-      flash[:error] = "user failed to save"
-      render "/users/new"
-    end
+    @user.save
+
+    render "show.json.jbuilder"
   end
 
   def update

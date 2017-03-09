@@ -1,4 +1,4 @@
-<% @subgroups.each do |subgroup| %>
+<% current_user.subgroups.each do |subgroup| %>
   <h2>-<%= subgroup.name.capitalize %> Membership</h2>
   <h5>Admins for this subgroup:</h5>
     <% subgroup.users.each do |user| %>

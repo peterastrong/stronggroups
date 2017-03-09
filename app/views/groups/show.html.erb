@@ -3,25 +3,29 @@
 <p>Group name: <%= @group.name %></p>
 <p>Group description: <%= @group.description %></p>
 
+
+<% if current_user.admin?(@group.id) %>
+
 <%= link_to "update", "/groups/#{@group.id}/edit"  %>
 
+<h3>Create a new subgroup for this page</h3>
+
+
+<!-- add user_group relationship -->
 <h3>Add a user to this group by their email address.  </h3>
 <%= form_tag "/user_groups", method: :post do %>
   
   <div>email: <input type="email" name="email"></div>
   <div>role: 
     <select name="role">
-      <option value="1">Admin</option>
-      <option value="2">Editor</option>
-      <option value="3">User</option>
+      <option value="admin">Admin</option>
+      <option value="editor">Editor</option>
+      <option value="member">User</option>
     </select>
 
   </div>
-  
-
-  
   <input type="hidden" name="group_id" value="<%= @group.id %>">
   <input type="submit" value="Add UserGroup relationship">
 
   <% end %>
-
+<% end %>

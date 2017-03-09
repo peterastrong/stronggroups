@@ -1,16 +1,16 @@
 <% @groups.each do |group| %>
-  <h1><%= group.name.capitalize %> Membership</h1>
+  <h1><a href="/groups/<%= group.id%>">    <%= group.name.capitalize %> Membership </a> </h1>
   <h3>Admins for this group:</h3>
     <% group.users.each do |user| %>
       <% if user.admin?(group.id) %>
-        <p><%= user.first_name %></p>
+        <p><%= user.full_name %></p>
       <% end %>
     <% end %>
   <h3>Editors for this group:</h3>
     <% group.users.each do |user| %>
       <p>
         <% if user.editor?(group.id) %>
-          <%= user.first_name %>
+          <%= user.full_name %>
         <% end %>
       </p>
     <% end %>
@@ -18,7 +18,7 @@
     <% group.users.each do |user| %>
       <p>
         <% if user.member?(group.id) %>
-          <%= user.first_name %>
+          <%= user.full_name %>
         <% end %>
       </p>
     <% end %>

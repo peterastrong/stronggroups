@@ -24,6 +24,12 @@
       }); 
     };
 
+    $scope.setup = function(id) {
+      $http.get("api/v1/users/" + id.toString() + ".json").then(function(response) {
+        $scope.user_events = response.data.events;
+      });
+    };
+
 
   });
 }());

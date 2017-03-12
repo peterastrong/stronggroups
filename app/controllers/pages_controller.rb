@@ -1,9 +1,14 @@
 class PagesController < ApplicationController
-  def index
+  def landing
     unless current_user
-      render "index.html.erb"
+      render "landing.html.erb"
     else
       redirect_to '/user'
     end
   end
+
+  def about
+    render "about.html.erb"
+  end
+
 end

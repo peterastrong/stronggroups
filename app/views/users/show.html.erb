@@ -18,6 +18,10 @@
     <% end %>
   </div>
 
+  
+    <%= link_to("Create a new event", "/events/new" ) %>
+
+
 <% if @user.events.where.not(group_id: nil).empty? == false %>
 
   <h3> Group Events: </h3>
@@ -43,7 +47,9 @@
     <% end %>
   </div>
 <% end %>
- 
+
+<div ng-app="app">
+    <div ng-controller="angularCtrl">
         <div id="myaccount">
             <div class="container">
                 <div class="text-center ">
@@ -142,58 +148,12 @@
                                 </tbody>
                             </table>
 
-                            <table id="mybooking-list" class="table booking-list stacktable small-only"> 
-                                <tbody>
-                                    <tr>
-                                        <th>ID</th>
-                                        <td>1448488001</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Picking up</th>
-                                        <td>Roissy</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Dropping off</th>
-                                        <td>Paris nord </td>
-                                    </tr>
-                                    <tr>   
-                                        <th>Passenger </th>
-                                        <td>1</td>                        
-                                    </tr>
-                                    <tr>   
-                                        <th>date<strong> &amp; </strong>time</th> 
-                                        <td>12/17/2015<br> 11:11</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Quote</th><td>130 $  </td>
-                                    </tr>
-                                    <tr>  
-                                        <th>Status</th>
-                                        <td><strong class="status-orange">None</strong></td>
-                                    </tr>
-                                    <tr>  
-                                        <th>Date</th>
-                                        <td>November 25, 2015</td> 
-                                    </tr>
-                                    <tr>  
-                                        <th>Download</th>
-                                        <td class="center">
-                                            <a class="get-invoice btn btn-theme" href="#">
-                                                <i class="pe-7s-download size-35"></i> 
-                                            </a>
-
-                                        </td>
-                                    </tr>
-                                    <tr>  
-                                        <th colspan="2"> ----------  </th>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            
 
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
+    </div>
+</div>

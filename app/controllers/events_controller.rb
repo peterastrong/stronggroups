@@ -20,7 +20,8 @@ class EventsController < ApplicationController
                       description: params[:description],
                       registration_deadline: params[:registration_deadline],
                       due_date: params[:due_date])
-    @event.save 
+    @event.save
+     
     redirect_to "/events/#{@event.id}"
   end
 

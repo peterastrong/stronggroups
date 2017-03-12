@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root to: "pages#index"
+  root to: "pages#landing"
 
-  #landing page
-  get "/landing", to: "pages#index"
+  #other pages
+  get "/landing", to: "pages#landing"
+  get "/about", to: "pages#about"
   
   #users
   get "/users/new", to: "users#new"
@@ -16,6 +17,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do 
       get "/users", to: "users#index"
+      get '/users/:id', to: "users#show"
       post "/users", to: "users#create"
 
     end 
@@ -48,7 +50,7 @@ Rails.application.routes.draw do
 
   #subgroups 
   get "subgroups", to: "subgroups#index"
-  get "/subgroups/new", to: "subgroups#new"
+  get "/subgroups/new/:group_id", to: "subgroups#new"
   post "/subgroups", to: "subgroups#create"
   get "/subgroups/:id", to: "subgroups#show"
   get "/subgroups/:id/edit", to: "subgroups#edit"

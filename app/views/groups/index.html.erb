@@ -1,27 +1,6 @@
+
 <% @groups.each do |group| %>
-  <h1><a href="/groups/<%= group.id%>">    <%= group.name.capitalize %> Membership </a> </h1>
-  <h3>Admins for this group:</h3>
-    <% group.users.each do |user| %>
-      <% if user.admin?(group.id) %>
-        <p><%= user.full_name %></p>
-      <% end %>
-    <% end %>
-  <h3>Editors for this group:</h3>
-    <% group.users.each do |user| %>
-      <p>
-        <% if user.editor?(group.id) %>
-          <%= user.full_name %>
-        <% end %>
-      </p>
-    <% end %>
-  <h3>Members for this group:</h3>
-    <% group.users.each do |user| %>
-      <p>
-        <% if user.member?(group.id) %>
-          <%= user.full_name %>
-        <% end %>
-      </p>
-    <% end %>
+  <h1><a href="/groups/<%= group.id%>">    <%= group.name.titleize %> </a> </h1>
   <hr>
 <% end %>
 

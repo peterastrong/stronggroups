@@ -3,6 +3,12 @@
 <p>Group name: <%= @group.name %></p>
 <p>Group description: <%= @group.description %></p>
 
+<!-- ask to join -->
+<% unless current_user.admin?(@group.id) %>
+<p> <%= "Contact Admin for to join group" %> </p>
+<!-- make above work -->
+<% end  %>
+
 
 <% if current_user.admin?(@group.id) %>
 
@@ -10,6 +16,12 @@
 
 <h3>Create a new subgroup for this page</h3>
 
+<%= form_tag "/subgroups", method: :post do %>
+  <p> <input type="hidden" name="group_id" value="<%= @group.id %>"></p> 
+  <p>name: <input type="text" name="name"></p>
+  <p>Description: <input type="text" name="description"></p>
+  <p><input type="submit" Value="Create"></p>
+  <% end %>
 
 <!-- add user_group relationship -->
 <h3>Add a user to this group by their email address.  </h3>

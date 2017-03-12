@@ -5,15 +5,11 @@ class SubgroupsController < ApplicationController
     @subgroups = Subgroup.all
     render "index.html.erb"
   end
-  
-  def new
-    @subgroup = Subgroup.new
-    render "new.html.erb"
-  end
 
   def create
     @subgroup = Subgroup.new(group_id: params[:group_id], name: params[:name], description: params[:description])
     @subgroup.save
+    UserSubgroup.create(user_id: current_user.id, subgroup_id: @subgroup.id)
     redirect_to "/subgroups/#{@subgroup.id}"
   end
 
@@ -24,6 +20,7 @@ class SubgroupsController < ApplicationController
 
   def edit
     @subgroup = Subgroup.find_by(id: params[:id])
+    redirect_to '/' if current_user.member?(@subgroup.group_id)
     render "edit.html.erb"    
   end 
 

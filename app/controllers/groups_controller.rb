@@ -2,7 +2,11 @@ class GroupsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
   def index
-    @groups = Group.all
+    if current_user
+      @groups = current_user.groups.all
+    else
+      @groups = Group.all
+    end 
     render "index.html.erb"
   end
   
@@ -15,6 +19,7 @@ class GroupsController < ApplicationController
     @group = Group.new(name: params[:name],
                       description: params[:description])
     @group.save
+    UserGroup.create(user_id: current_user.id, group_id: @group.id)
     redirect_to "/groups/#{@group.id}"
   end
 

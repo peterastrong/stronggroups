@@ -1,55 +1,5 @@
-
-<h1>a user</h1>
-
-<p> the users name is <%= @user.first_name %></p>
-
-  <h3> Groups: </h3>
-  <div>
-    <% @user.groups.each do |group| %>
-       <p>* <%= group.name %>: <%= group.description %></p>  
-    <% end %>
-  </div>
-
-
-  <h3> Subgroups: </h3>
-  <div>
-    <% @user.subgroups.each do |subgroup| %>
-      <p>* <%= subgroup.name %>: <%= subgroup.description %></p>
-    <% end %>
-  </div>
-
-  
-    <%= link_to("Create a new event", "/events/new" ) %>
-
-
-<% if @user.events.where.not(group_id: nil).empty? == false %>
-
-  <h3> Group Events: </h3>
-  <div> 
-    <% @user.events.group_by(&:group_id).each do |group_id, events| %>
-      <h3><%= Group.find(group_id).name %> Events:</h3>
-      <% events.each do |event| %>
-        <p>Event Name: <%= event.name %></p>
-      <% end %>
-    <% end %>
-  </div>
-<% end %>
-
-
-<% if @user.events.where.not(subgroup_id: nil).empty? == false %>
-  <h3> SubGroup Events: </h3>
-  <div> 
-    <% @user.events.group_by(&:subgroup_id).each do |subgroup_id, events| %>
-      <h3><%= Subgroup.find(subgroup_id).name %> Events:</h3>
-      <% events.each do |event| %>
-        <p>Event Name: <%= event.name %></p>
-      <% end %>
-    <% end %>
-  </div>
-<% end %>
-
 <div ng-app="app">
-    <div ng-controller="angularCtrl">
+    <div ng-controller="angularCtrl" ng-init="setup(<%= current_user.id %>)">
         <div id="myaccount">
             <div class="container">
                 <div class="text-center ">
@@ -67,7 +17,7 @@
                             </div>
                             <div class="panel-body">
                                 <ul class="nav nav-pills nav-stacked">
-                                    <li class="active"><a href="bookings-list.html">My bookings</a></li>
+                                    <li class="active"><a href="bookings-list.html">My Events</a></li>
                                     <li><a href="settings.html">Settings</a></li>
                                     <li><a href="messages.html">Messages</a></li>
                                     <li><a href="#">Shop Cart</a></li>
@@ -79,66 +29,27 @@
 
                     <div class="col-sm-9 account-data padding-b-50 padding-t-50">
                         <div id="tab2" class="box-old-booking box-section animated fadeInUp">
-                            <h2 style="padding-bottom: 17px;">My bookings</h2>
+                            <h2 style="padding-bottom: 17px;">My Events / Assignments / Appointments</h2>
 
                             <table id="mybooking-list" class="table booking-list stacktable large-only">
                                 <tbody>
                                     <tr>
-                                        <th>Picking up</th>
-                                        <th>Dropping off</th> 
-                                        <th>Passenger</th> 
-                                        <th>date<strong> &amp; </strong>time</th> 
-                                        <th>Quote</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                        <th>Download</th>
+                                        <th>Event name</th>
+                                        <th>Description</th> 
+                                        <th>Date of event (or assigned date)</th> 
+                                        <th>Due Date</th> 
+                                        <th>Registration Deadline</th>
+                                        <th>Subgroup Name</th>
+                                        <th>Cld b reg button?</th>
                                     </tr>
 
-                                    <tr title="Booking id : 1448465068">
-                                        <td>Roissy </td>
-                                        <td>Paris nord </td>
-                                        <td>1</td>
-                                        <td>
-                                            12/22/2015<br>
-                                            11:11
-                                        </td>
-                                        <td>29 $  </td>
-                                        <td><strong class="status-orange">------</strong></td>
-                                        <td>November 25, 2015</td> 
-                                        <td class="center">
-                                            <a class="get-invoice btn btn-theme" href="#">
-                                                <i class="pe-7s-download size-35"></i> 
-                                            </a>
-                                        </td>
-                                    </tr> 
-                                    <tr title="Booking id : 1448465068">
-                                        <td>Roissy </td>
-                                        <td>Paris nord </td>
-                                        <td>1</td>
-                                        <td>
-                                            12/22/2015<br>
-                                            11:11
-                                        </td>
-                                        <td>29 $  </td>
-                                        <td><strong class="status-orange">------</strong></td>
-                                        <td>November 25, 2015</td> 
-                                        <td class="center">
-                                            <a class="get-invoice btn btn-theme" href="#">
-                                                <i class="pe-7s-download size-35"></i> 
-                                            </a>
-                                        </td>
-                                    </tr> 
-                                    <tr title="Booking id : 1448465068">
-                                        <td>Roissy </td>
-                                        <td>Paris nord </td>
-                                        <td>1</td>
-                                        <td>
-                                            12/22/2015<br>
-                                            11:11
-                                        </td>
-                                        <td>29 $  </td>
-                                        <td><strong class="status-orange">------</strong></td>
-                                        <td>November 25, 2015</td> 
+                                    <tr ng-repeat="event in userEvents">
+                                        <td> {{event.event_name}} </td>
+                                        <td> {{event.event_description}} </td>
+                                        <td> {{event.event_date}} </td>
+                                        <td> {{event.due_date}} </td>
+                                        <td> {{event.registration_deadline}} </td>
+                                        <td> {{event.subgroup_name}} </td>
                                         <td class="center">
                                             <a class="get-invoice btn btn-theme" href="#">
                                                 <i class="pe-7s-download size-35"></i> 
@@ -147,9 +58,6 @@
                                     </tr> 
                                 </tbody>
                             </table>
-
-                            
-
                         </div>
                     </div>
                 </div>

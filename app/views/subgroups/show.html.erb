@@ -1,16 +1,30 @@
-a subgroup
-<p><%= @subgroup.name %></p>
+
+<h1><%= @subgroup.name %></h1>
 <p><%= @subgroup.description %></p>
 
+<% if current_user.admin?(@subgroup.group.id) %>
 
-<%= link_to "update", "/subgroups/#{@subgroup.id}/edit"  %>
+  <h3>Add an event for this subgroup.</h3>
+  <%= form_tag "/events", method: :post do %>
 
-<h3>Add a user to this group by their email address.  </h3>
-<%= form_tag "/user_subgroups", method: :post do %>
-  
-  <div>email: <input type="email" name="email"></div>
- 
+  <div>Event Name: <input type="text" name="name"></div>
+  <div>Description: <input type="text" name="description"></div>
+  <div>Date: <input type="date" name="date"></div>
+  <div>Registration Deadline: <input type="date" name="registration_deadline"></div>
+  <div>Due Date: <input type="date" name="due_date"></div>
   <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
-  <input type="submit" value="Add User Subgroup relationship">
+  <input type="submit" value="Add Event">
+  <% end %>
+
+  <h3>Add a user to this group by their email address.  </h3>
+  <%= form_tag "/user_subgroups", method: :post do %>
+  
+    <div>email: <input type="email" name="email"></div>
+    <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
+    <input type="submit" value="Add User">
 
   <% end %>
+
+  <%= link_to "update", "/subgroups/#{@subgroup.id}/edit"  %>
+
+<% end %>

@@ -21,8 +21,9 @@ class EventsController < ApplicationController
                       registration_deadline: params[:registration_deadline],
                       due_date: params[:due_date])
     @event.save
-     
-    redirect_to "/events/#{@event.id}"
+    UserEvent.create(user_id: current_user.id, event_id: @event.id)
+    # need to save the members that will be in an event
+    redirect_to "/user"
   end
 
   def show

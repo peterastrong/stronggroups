@@ -34,16 +34,16 @@
                             <table id="mybooking-list" class="table booking-list stacktable large-only">
                                 <tbody>
                                     <tr>
-                                        <th>Event name</th>
-                                        <th>Description</th> 
-                                        <th>Date of event (or assigned date)</th> 
-                                        <th>Due Date</th> 
-                                        <th>Registration Deadline</th>
-                                        <th>Subgroup Name</th>
+                                        <th ng-click="toggleOrder('event_name')">Event name</th>
+                                        <th ng-click="toggleOrder('event_description')">Description</th> 
+                                        <th ng-click="toggleOrder('event_date')">Date of event (or assigned date)</th> 
+                                        <th ng-click="toggleOrder('due_date')">Due Date</th> 
+                                        <th ng-click="toggleOrder('registration_deadline')">Registration Deadline</th>
+                                        <th ng-click="toggleOrder('subgroup_name')">Subgroup Name</th>
                                         <th>Cld b reg button?</th>
                                     </tr>
 
-                                    <tr ng-repeat="event in userEvents">
+                                    <tr ng-repeat="event in userEvents | orderBy:orderAttribute:isDescending">
                                         <td> {{event.event_name}} </td>
                                         <td> {{event.event_description}} </td>
                                         <td> {{event.event_date}} </td>

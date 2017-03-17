@@ -1,10 +1,12 @@
 <h1>Subgroups</h1>
 
 
-<% current_user.subgroups.each do |subgroup| %>
-  <h3> <a href="/subgroups/<%= subgroup.id %>">-<%= subgroup.name.capitalize %></a></h3>
-  
-<% end %>
+  <% current_user.subgroups.each do |subgroup| %>
+    <h3> <a href="/subgroups/<%= subgroup.id %>">-<%= subgroup.name.capitalize %></a></h3>
+    
+  <% end %>
+
+<!-- if user is member of more than one group how to loop through each group and print the subgroups of that group for that user -->
 
 
 

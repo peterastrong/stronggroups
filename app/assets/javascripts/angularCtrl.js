@@ -30,6 +30,15 @@
       });
     };
 
+    $scope.toggleOrder = function(attribute) {
+      if (attribute !== $scope.orderAttribute) {
+        $scope.isDescending = false;
+      } else {
+        $scope.isDescending = !$scope.isDescending;
+      }
+      $scope.orderAttribute = attribute;
+    };
+
 
   });
 }());

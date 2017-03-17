@@ -1,16 +1,32 @@
 <h1><%= @group.name.capitalize %></h1>
 <p>Group description: <%= @group.description %></p>
 
-<!-- ask to join -->
-<% unless current_user && current_user.admin?(@group.id) %>
+ <!-- ask to join -->
   <p> <%= "Contact Admin for to join group" %> </p>
-  <!-- make above work -->
+  <!-- make above work  when no one is logged in-->
+
+
+
+<% if current_user && current_user.member?(@group.id) %>
+  
+
+ 
+
+
 <% end  %>
 
 
 <% if current_user && current_user.admin?(@group.id) %>
 
-  <%= link_to "update", "/groups/#{@group.id}/edit"  %>
+  <h3>Members of this group</h3>
+    <% @group.users.each do |user| %>
+      <p><%= user.full_name %> - <%= user.role(user, @group.id) %> - <%= user.email %></p>
+    <% end %>
+
+  <h3>Subgroups</h3>
+    <% @group.subgroups.each do |subgroup| %>
+      <p> <a href="/subgroups/<%= subgroup.id %>"> <%= subgroup.name %> <%= subgroup.description %> </a> </p>
+    <% end %>
 
   <h3>Create a new subgroup for this page</h3>
 
@@ -20,6 +36,31 @@
       <p>Description: <input type="text" name="description"></p>
       <p><input type="submit" Value="Create"></p>
     <% end %>
+
+  <div ng-app="app">
+    <div ng-controller="angularCtrl">
+      <h3>Create a new user.</h3>
+        <div ng-if="userCreated">You have been successfully added a new user. Make sure to modify their role. </div>
+        <div>
+          <input type="text" placeholder="First Name" ng-model="firstName" required> 
+        </div> 
+        <div>
+          <input type="text" placeholder="Last Name" ng-model="lastName" required>
+        </div>
+        <div>
+          <input type="email" placeholder="email" ng-model="email" required>
+        </div>
+        <div>
+          <input type="password" placeholder="password" ng-model="password" required>
+        </div>
+        <div>
+          <input type="password" placeholder="password confirmation" ng-model="passwordConfirmation" required>
+        </div>
+        <div>
+          <input type="button" ng-click="createUser(firstName, lastName, email, password, passwordConfirmation)" value="Join!">
+        </div>
+    </div>
+  </div>
 
   <!-- add user_group relationship -->
   <h3>Add a user to this group by their email address.  </h3>
@@ -35,4 +76,7 @@
       <input type="hidden" name="group_id" value="<%= @group.id %>">
       <input type="submit" value="Add UserGroup relationship">
     <% end %>
+
+    <%= link_to "update", "/groups/#{@group.id}/edit"  %>
+
 <% end %>

@@ -29,4 +29,8 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def role(user, group_id)
+    "#{user.user_groups.find_by(group_id: group_id).role.capitalize}"
+  end 
 end

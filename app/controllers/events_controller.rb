@@ -21,8 +21,11 @@ class EventsController < ApplicationController
                       registration_deadline: params[:registration_deadline],
                       due_date: params[:due_date])
     @event.save
-    UserEvent.create(user_id: current_user.id, event_id: @event.id)
-    # need to save the members that will be in an event
+    @subgroup = Subgroup.find_by(id: params[:subgroup_id])
+    @subgroup.users.each do |user|
+      UserEvent.create(user_id: user.id, event_id: @event.id)
+    end
+    
     redirect_to "/user"
   end
 

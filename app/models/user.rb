@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :subgroups, through: :user_subgroups
   has_many :user_events
   has_many :events, through: :user_events
+  has_many :messages
   
   validates :first_name, :last_name, :email, presence: true
   validates :email, uniqueness: true 

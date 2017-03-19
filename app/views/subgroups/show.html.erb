@@ -50,3 +50,8 @@
     <%= link_to "update", "/subgroups/#{@subgroup.id}/edit"  %>
 
   <% end %>
+<div ng-app="app">
+  <div id="messages-<%= @subgroup.id %>" ng-controller="messagesCtrl" ng-init="setup(<%= @subgroup.id %>)">
+    
+  </div>
+</div>

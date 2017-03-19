@@ -13,7 +13,7 @@ class Api::V1::MessagesController < ApplicationController
 
     ActionCable.server.broadcast "activity_channel", {
       id: @message.id,
-      name: @message.name,
+      name: @message.user.full_name,
       body: @message.body,
       subgroup_id: @message.subgroup_id,
       created_at: @message.created_at

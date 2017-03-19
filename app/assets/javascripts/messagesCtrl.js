@@ -17,7 +17,7 @@
           subgroup_id: subgroupId
         };
         $http.post("/api/v1/messages.json", params).then(function(response) {
-          $scope.neMessageBody = "";
+          $scope.newMessageBody = "";
         });
       }
     };

@@ -38,6 +38,18 @@
       }
       $scope.orderAttribute = attribute;
     };
+// api patch in 
+    $scope.checkOnOff = function(attribute) {
+      if (attribute === false) {
+
+        $scope.blankBox = true;
+        $scope.checkBox = false;
+      } else {
+        $scope.blankBox = false;
+        $scope.checkBox = true;
+      }
+
+    };
 
 
   });

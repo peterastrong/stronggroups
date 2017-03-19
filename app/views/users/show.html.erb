@@ -38,7 +38,7 @@
                                         <th ng-click="toggleOrder('due_date')">Due Date</th> 
                                         <th ng-click="toggleOrder('registration_deadline')">Registration Deadline</th>
                                         <th ng-click="toggleOrder('subgroup_name')">Subgroup Name</th>
-                                        <th>Cld b reg button?</th>
+                                        <th>Register?</th>
                                     </tr>
 
                                     <tr ng-repeat="event in userEvents | orderBy:orderAttribute:isDescending">
@@ -48,10 +48,13 @@
                                         <td> {{event.due_date}} </td>
                                         <td> {{event.registration_deadline}} </td>
                                         <td> {{event.subgroup_name}} </td>
-                                        <td class="center">
-                                            <a class="get-invoice btn btn-theme" href="#">
-                                                <i class="pe-7s-download size-35"></i> 
-                                            </a>
+                                        <td class="center get-invoice btn btn-theme button-color">
+                                            <!-- <a class="" href="#"> -->
+                                            <div ng-click="checkOnOff('must_register?')">
+                                                <i ng-if="blankBox" class="fa fa-square-o" aria-hidden="true"></i> 
+                                                <i ng-if="checkBox" class="fa fa-check-square-o" aria-hidden="true"></i>
+                                            </div>
+                                            <!-- </a> -->
                                         </td>
                                     </tr> 
                                 </tbody>

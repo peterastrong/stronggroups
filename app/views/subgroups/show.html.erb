@@ -50,8 +50,23 @@
     <%= link_to "update", "/subgroups/#{@subgroup.id}/edit"  %>
 
   <% end %>
+
+<!-- chat -->
+<% if current_user %>
+<h3>GroupsTogetherChat</h3>
 <div ng-app="app">
   <div id="messages-<%= @subgroup.id %>" ng-controller="messagesCtrl" ng-init="setup(<%= @subgroup.id %>)">
+    <div class="message" ng-repeat="message in messages | orderBy:'created_at'">
+      {{ message.name }}: {{ message.body }}
+    </div>
+
+   
+      <div>
+        <label for="body">New Message: </label>
+        <input type="text" id="body" name="body" ng-model="newMessageBody">
+        <input type="submit" ng-click="createNewMessage(newMessageBody, <%= current_user.id %>, <%= @subgroup.id %>)" >
+      </div>
     
   </div>
 </div>
+<% end %>

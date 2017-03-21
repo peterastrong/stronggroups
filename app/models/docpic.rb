@@ -7,5 +7,4 @@ class Docpic < ApplicationRecord
             "application/msword", 
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
             "text/plain"] }
-
 end

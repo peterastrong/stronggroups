@@ -53,20 +53,24 @@
 
 <!-- chat -->
 <% if current_user %>
-<h3>GroupsTogetherChat</h3>
-<div ng-app="app">
-  <div id="messages-<%= @subgroup.id %>" ng-controller="messagesCtrl" ng-init="setup(<%= @subgroup.id %>)">
-    <div class="message" ng-repeat="message in messages | orderBy:'created_at'">
-      {{ message.name }}: {{ message.body }}
-    </div>
-
-   
-      <div>
-        <label for="body">New Message: </label>
-        <input type="text" id="body" name="body" ng-model="newMessageBody">
-        <input type="submit" ng-click="createNewMessage(newMessageBody, <%= current_user.id %>, <%= @subgroup.id %>)" >
+  <h3>GroupsTogetherChat</h3>
+    <div ng-app="app">
+      <div id="messages-<%= @subgroup.id %>" ng-controller="messagesCtrl" ng-init="setup(<%= @subgroup.id %>)">
+        <div class="message" ng-repeat="message in messages | orderBy:'created_at'">
+          {{ message.name }}: {{ message.body }}
+        </div>
+          <div>
+            <form ng-submit="createNewMessage(newMessageBody, <%= current_user.id %>, <%= @subgroup.id %>)" >
+              <label for="body">New Message: </label>
+              <input type="text" id="body" name="body" ng-model="newMessageBody">
+              <input type="submit">
+            </form>
+          </div>
       </div>
-    
-  </div>
-</div>
+    </div>
+  <h3>Document Upload</h3>
+    <%= form_tag "/docs", method: :post, multipart: true do %>
+
+
+    <% end %>
 <% end %>

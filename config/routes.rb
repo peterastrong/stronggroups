@@ -7,6 +7,15 @@ Rails.application.routes.draw do
   #other pages
   get "/landing", to: "pages#landing"
   get "/about", to: "pages#about"
+
+  #docpics
+  get "/docs", to: "docspics#index"
+  get "/docs/new", to: "docspics#new"
+  post "/docs", to: "docspics#create"
+  get "docs/:id", to: "docspics#show"
+  get "docs/:id/edit", to: "docspics#edit"
+  patch "docs/:id", to: "docspics#update"
+  delete "docs/:id", to: "docspics#destroy"
   
   #users
   get "/users/new", to: "users#new"

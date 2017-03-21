@@ -1,0 +1,2 @@
+class DocspicsController < ApplicationController
+end

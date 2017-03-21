@@ -22,11 +22,17 @@ Rails.application.routes.draw do
       get "/users", to: "users#index"
       get '/users/:id', to: "users#show"
       post "/users", to: "users#create"
+      patch "/users/:id", to: "users#update"
 
       #messages api
       get "/messages", to: "messages#index"
       get "/messages/:id", to: "messages#show"
       post "/messages", to: "messages#create"
+
+      #events api 
+      get "events", to: "events#index"
+      get "/events/:id", to: "events#show"
+      patch "/events/:id", to: "events#update"
     end 
   end 
 

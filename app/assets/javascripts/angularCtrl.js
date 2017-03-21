@@ -14,7 +14,6 @@
         password_confirmation: passwordConfirmation
       };
       $http.post('/api/v1/users.json', params).then(function(response) {
-        // $scope.meetings.push(response.data);
         $scope.firstName = "";
         $scope.lastName = "";
         $scope.email = "";
@@ -38,18 +37,17 @@
       }
       $scope.orderAttribute = attribute;
     };
-// api patch in 
-    $scope.checkOnOff = function(attribute) {
-      if (attribute === false) {
 
-        $scope.blankBox = true;
-        $scope.checkBox = false;
-      } else {
-        $scope.blankBox = false;
-        $scope.checkBox = true;
-      }
-
+    $scope.updateUserEvent = function(userId, eventId) {
+      var params = {
+        user_id: userId,
+        event_id: eventId
+      };
+      $http.patch('api/v1/users/' + userId + ".json", params).then(function(response) {
+        $scope.userEvents = response.data.events;
+      });
     };
+
 
 
   });

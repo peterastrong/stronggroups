@@ -50,9 +50,9 @@
                                         <td> {{event.subgroup_name}} </td>
                                         <td class="center get-invoice btn btn-theme button-color">
                                             <!-- <a class="" href="#"> -->
-                                            <div ng-click="checkOnOff('must_register?')">
-                                                <i ng-if="blankBox" class="fa fa-square-o" aria-hidden="true"></i> 
-                                                <i ng-if="checkBox" class="fa fa-check-square-o" aria-hidden="true"></i>
+                                            <div ng-click="updateUserEvent(<%= current_user.id %>, event.event_id)">
+                                                <i ng-if="!event.registered" class="fa fa-square-o" aria-hidden="true"></i> 
+                                                <i ng-if="event.registered" class="fa fa-check-square-o" aria-hidden="true"></i>
                                             </div>
                                             <!-- </a> -->
                                         </td>

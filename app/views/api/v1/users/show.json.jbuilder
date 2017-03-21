@@ -10,4 +10,5 @@ json.events @user.events.each do |event|
   json.registration_deadline event.registration_deadline
   json.must_register? event.must_register?
   json.subgroup_name event.subgroup.name
+  json.registered event.user_events.find_by(user_id: @user.id).registered
 end

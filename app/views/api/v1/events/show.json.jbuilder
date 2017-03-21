@@ -1,0 +1,9 @@
+json.id @event.id
+json.name @event.name
+json.group_id @event.group_id
+json.subgroup_id @event.subgroup_id
+json.date @event.date
+json.description @event.description
+json.registration_deadline @event.registration_deadline
+json.due_date @event.due_date
+json.must_register @event.must_register?

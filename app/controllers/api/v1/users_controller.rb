@@ -12,14 +12,19 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    @user = User.find_by(id: params[:id])
-    @user.assign_attributes(first_name: params[:first_name], last_name: params[:last_name], email: params[:email])
-    if @user.save
-      flash[:success] = "user has been updated"
-      render "/user"
-    else
-      flash[:error] =  "user has not been updated"
-      render #????
+    @user = User.find_by(id: params[:user_id])
+    @user_event = @user.user_events.find_by(event_id: params[:event_id])
+    if @user_event.registered == nil
+      @user_event.registered = true
+    else 
+      if @user_event.registered == false
+        @user_event.registered = true
+      else 
+        @user_event.registered = false  
+      end 
     end 
+    @user_event.save
+    render "show.json.jbuilder"
   end
+
 end

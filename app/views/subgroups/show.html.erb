@@ -10,9 +10,16 @@
         <p><strong><%= event.name %>:</strong> <%= event.description %></p>
       <% end %>
 
-     <h3>Members of this subgroup</h3>
+    <h3>Members of this subgroup</h3>
       <% @subgroup.users.each do |user| %>
         <p><%= user.full_name %> - <%= user.role(user, @subgroup.group.id) %></p>
+      <% end %>
+
+    <h3>All Your Documents:</h3>
+      <% if current_user.docpics.any? %>
+        <% current_user.docpics.each do |doc| %>
+          <p><%= link_to doc.title, doc.document.url %></p>
+        <% end %>
       <% end %>
   <% end %>
 
@@ -28,6 +35,20 @@
         <p><%= user.full_name %> - <%= user.role(user, @subgroup.group.id) %></p>
       <% end %>
 
+    <h3>Documents:</h3>
+      <% if @subgroup.docpics.any? %>
+        <% @subgroup.docpics.each do |doc| %>
+          <p><%= link_to doc.title, doc.document.url %> UserName: <%= doc.user.full_name %></p>
+        <% end %>
+      <% end %>
+<!-- should only be able to add this user to the subgroup if they are a member of the group, not sure if that is the case, must test, maybe a dropdown of all /names emails in the input box for email?  -->
+    <h3>Add a user to this subgroup by their email address.  </h3>
+      <%= form_tag "/user_subgroups", method: :post do %>
+        <div>email: <input type="email" name="email"></div>
+        <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
+        <input type="submit" value="Add User">
+      <% end %>
+<!-- add event -->
     <h3>Add an event for this subgroup.</h3>
       <%= form_tag "/events", method: :post do %>
 
@@ -39,38 +60,65 @@
         <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
         <input type="submit" value="Add Event">
       <% end %>
-<!-- should only be able to add this user to the subgroup if they are a member of the group, not sure if that is the case, must test, maybe a dropdown of all /names emails in the input box for email?  -->
-    <h3>Add a user to this subgroup by their email address.  </h3>
-      <%= form_tag "/user_subgroups", method: :post do %>
-        <div>email: <input type="email" name="email"></div>
-        <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
-        <input type="submit" value="Add User">
+      <!-- update subgroup -->
+      <%= link_to "update this subgroup", "/subgroups/#{@subgroup.id}/edit"  %>
+    <h3>Add user to event</h3>  
+      <%= form_tag "/user_events", method: :post do %>
+        <div>
+          <select name="event_id">
+            <% @subgroup.events.all.each do |event| %>
+            <option value="<%= event.id %>"><%= event.name %></option>
+            <% end %>
+          </select>
+        </div>
+        <div>
+          <select name="user_id">
+            <%= @subgroup.users.each do |user| %>
+            <option value="<%= user.id %>"><%= user.full_name %></option>
+            <% end %>
+          </select>
+        </div>
+        <div>
+          <input type="submit" name="Add user to event.">
+        </div>
       <% end %>
-
-    <%= link_to "update", "/subgroups/#{@subgroup.id}/edit"  %>
-
   <% end %>
 
 <!-- chat -->
-<% if current_user %>
-  <h3>GroupsTogetherChat</h3>
-    <div ng-app="app">
-      <div id="messages-<%= @subgroup.id %>" ng-controller="messagesCtrl" ng-init="setup(<%= @subgroup.id %>)">
-        <div class="message" ng-repeat="message in messages | orderBy:'created_at'">
-          {{ message.name }}: {{ message.body }}
-        </div>
-          <div>
-            <form ng-submit="createNewMessage(newMessageBody, <%= current_user.id %>, <%= @subgroup.id %>)" >
-              <label for="body">New Message: </label>
-              <input type="text" id="body" name="body" ng-model="newMessageBody">
-              <input type="submit">
-            </form>
+  <% if current_user %>
+    <h3>GroupsTogetherChat</h3>
+      <div ng-app="app">
+        <div id="messages-<%= @subgroup.id %>" ng-controller="messagesCtrl" ng-init="setup(<%= @subgroup.id %>)">
+          <div class="message" ng-repeat="message in messages | orderBy:'created_at'">
+            {{ message.name }}: {{ message.body }}
           </div>
+            <div>
+              <form ng-submit="createNewMessage(newMessageBody, <%= current_user.id %>, <%= @subgroup.id %>)" >
+                <label for="body">New Message: </label>
+                <input type="text" id="body" name="body" ng-model="newMessageBody">
+                <input type="submit">
+              </form>
+            </div>
+        </div>
       </div>
-    </div>
-  <h3>Document Upload</h3>
-    <%= form_tag "/docs", method: :post, multipart: true do %>
+     
+<!-- Document Uploader -->
+    <h3>Document Upload</h3>
+      <%= form_tag "/docs", method: :post, multipart: true do %>
 
+        <div>
+          <%= label_tag :title %>
+          <%= text_field_tag :title  %>
+        </div>
 
-    <% end %>
-<% end %>
+        <div>
+          <%= label_tag :document %>
+          <%= file_field_tag :document %>
+        </div>
+
+        <%= hidden_field_tag :subgroup_id, @subgroup.id %>
+
+        <%= submit_tag 'Upload' %>
+      <% end %>
+  <% end %>
+

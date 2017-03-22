@@ -4,9 +4,8 @@ class UserEventsController < ApplicationController
   end
 
   def create
-    user = User.find_by(email: params[:email])
-    @user_event = UserEvent.new(user_id: user.id , event_id: params[:event_id] )
+    @user_event = UserEvent.new(user_id: params[:user_id], event_id: params[:event_id] )
     @user_event.save
-    redirect_to "/events/#{params[:event_id]}"
+    redirect_to "/user"
   end
 end

@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :user_events
   has_many :events, through: :user_events
   has_many :messages
+  has_many :docpics
   
   validates :first_name, :last_name, :email, presence: true
   validates :email, uniqueness: true 

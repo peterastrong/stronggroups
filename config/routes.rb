@@ -62,7 +62,7 @@ Rails.application.routes.draw do
   delete "/events/:id", to: "events#destroy"
 
   #groups
-  get "groups", to: "groups#index"
+  get "/groups", to: "groups#index"
   get "/groups/new", to: "groups#new"
   post "/groups", to: "groups#create"
   get "/groups/:id", to: "groups#show"

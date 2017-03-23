@@ -42,9 +42,15 @@
         <% end %>
       <% end %>
 <!-- should only be able to add this user to the subgroup if they are a member of the group, not sure if that is the case, must test, maybe a dropdown of all /names emails in the input box for email?  -->
-    <h3>Add a user to this subgroup by their email address.  </h3>
+    <h3>Add a user to this subgroup.  </h3>
       <%= form_tag "/user_subgroups", method: :post do %>
-        <div>email: <input type="email" name="email"></div>
+        <div>
+          <select name="id">
+            <%= @subgroup.group.users.each do |user| %>
+            <option value="<%= user.id %>"><%= user.full_name %></option>
+            <% end %>
+          </select>
+        </div>
         <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
         <input type="submit" value="Add User">
       <% end %>
@@ -105,20 +111,30 @@
 <!-- Document Uploader -->
     <h3>Document Upload</h3>
       <%= form_tag "/docs", method: :post, multipart: true do %>
-
         <div>
           <%= label_tag :title %>
           <%= text_field_tag :title  %>
         </div>
-
         <div>
           <%= label_tag :document %>
           <%= file_field_tag :document %>
         </div>
-
         <%= hidden_field_tag :subgroup_id, @subgroup.id %>
-
         <%= submit_tag 'Upload' %>
       <% end %>
+    <h3>Email the group.</h3>
+      <%= form_tag "/subgroup_emails", method: :post do %>
+        <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
+        <div>Subject:
+          <input type="text" name="subject">
+        </div>
+        <div>
+          <textarea name="body" placeholder="Enter email text here."></textarea>
+        </div>
+        <div>
+          <input type="submit" value="Send Email">
+        </div>
+      <% end %>
+
   <% end %>
 

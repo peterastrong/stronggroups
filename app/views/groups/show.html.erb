@@ -77,6 +77,19 @@
       <input type="submit" value="Add UserGroup relationship">
     <% end %>
 
+  <h3>Email the group.</h3>
+    <%= form_tag "/group_emails", method: :post do %>
+      <input type="hidden" name="group_id" value="<%= @group.id %>">
+      <div>Subject:
+        <input type="text" name="subject">
+      </div>
+      <div>
+        <textarea name="body" placeholder="">Enter email text here.</textarea>
+      </div>
+      <div>
+        <input type="submit" value="Send Email">
+      </div>
+    <% end %>
     <%= link_to "update", "/groups/#{@group.id}/edit"  %>
 
 <% end %>

@@ -91,4 +91,8 @@ Rails.application.routes.draw do
   get "/user_events/new", to: "user_events#new"
   post "/user_events", to: "user_events#create"
 
+  #emails
+  post "/group_emails", to: "emails#group_emails"
+  post "/subgroup_emails", to: "emails#subgroup_emails"
+
 end

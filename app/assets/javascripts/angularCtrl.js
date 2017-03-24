@@ -5,13 +5,15 @@
 
   angular.module("app").controller("angularCtrl", function($scope, $http) {
 
-    $scope.createUser = function(firstName, lastName, inputEmail, inputPassword, passwordConfirmation) {
+    $scope.createUser = function(firstName, lastName, inputEmail, inputPassword, passwordConfirmation, groupId, role) {
       var params = { 
         first_name: firstName,
         last_name: lastName,
         email: inputEmail,
         password: inputPassword,
-        password_confirmation: passwordConfirmation
+        password_confirmation: passwordConfirmation,
+        group_id: groupId,
+        role: role
       };
       $http.post('/api/v1/users.json', params).then(function(response) {
         $scope.firstName = "";
@@ -47,8 +49,5 @@
         $scope.userEvents = response.data.events;
       });
     };
-
-
-
   });
 }());

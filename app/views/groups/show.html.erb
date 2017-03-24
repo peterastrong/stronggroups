@@ -1,35 +1,34 @@
 <h1><%= @group.name.capitalize %></h1>
 <p>Group description: <%= @group.description %></p>
 
- <!-- ask to join -->
-  <p> <%= "Contact Admin for to join group" %> </p>
-  <!-- make above work  when no one is logged in-->
+<!-- Group contact - when no current user-->
+  <% unless current_user %>
+    <p> <a href="mailto:<%=@group.email%>"> Contact the group admin</a> </p>
+  <% end %>
 
-
-
-<% if current_user && current_user.member?(@group.id) %>
-  
-
- 
-
-
-<% end  %>
-
-
+<!-- Admin - Group Show -->
 <% if current_user && current_user.admin?(@group.id) %>
-
+  <!-- Members List -->
   <h3>Members of this group</h3>
     <% @group.users.each do |user| %>
       <p><%= user.full_name %> - <%= user.role(user, @group.id) %> - <%= user.email %></p>
     <% end %>
-
-  <h3>Subgroups</h3>
+  <!-- Subgroups -->
+  <% if @group.education? %>  
+    <h3>Classes</h3>
+  <% elsif @group.sports? %>
+    <h3>Teams</h3>
+  <% elsif @group.volunteer?%>
+    <h3>Committees</h3>
+  <% else %>
+    <h3>Subgroups</h3>
+  <% end %>
     <% @group.subgroups.each do |subgroup| %>
       <p> <a href="/subgroups/<%= subgroup.id %>"> <%= subgroup.name %> <%= subgroup.description %> </a> </p>
     <% end %>
 
+  <!-- Subgroup Create Form -->
   <h3>Create a new subgroup for this page</h3>
-
     <%= form_tag "/subgroups", method: :post do %>
       <p> <input type="hidden" name="group_id" value="<%= @group.id %>"></p> 
       <p>name: <input type="text" name="name"></p>
@@ -37,6 +36,7 @@
       <p><input type="submit" Value="Create"></p>
     <% end %>
 
+  <!-- New USer Create Form -->
   <div ng-app="app">
     <div ng-controller="angularCtrl">
       <h3>Create a new user.</h3>
@@ -57,7 +57,17 @@
           <input type="password" placeholder="password confirmation" ng-model="passwordConfirmation" required>
         </div>
         <div>
-          <input type="button" ng-click="createUser(firstName, lastName, email, password, passwordConfirmation)" value="Join!">
+          <input type="hidden" ng-model="groupId" ng-init="groupId=<%= @group.id %>">
+        </div>
+        <div>role: 
+        <select ng-model="role">
+          <option value="admin">Admin</option>
+          <option value="editor">Editor</option>
+          <option value="member">User</option>
+        </select>
+      </div>
+        <div>
+          <input type="button" ng-click="createUser(firstName, lastName, email, password, passwordConfirmation, groupId, role)" value="Join!">
         </div>
     </div>
   </div>
@@ -77,6 +87,7 @@
       <input type="submit" value="Add UserGroup relationship">
     <% end %>
 
+  <!-- Email Group -->
   <h3>Email the group.</h3>
     <%= form_tag "/group_emails", method: :post do %>
       <input type="hidden" name="group_id" value="<%= @group.id %>">
@@ -91,5 +102,28 @@
       </div>
     <% end %>
     <%= link_to "update", "/groups/#{@group.id}/edit"  %>
-
 <% end %>
+
+<!-- Member - Group Show  -->
+<% if current_user && current_user.member?(@group.id) %>
+
+  <!-- Member List -->
+  <h3>Members of this group</h3>
+    <% @group.users.each do |user| %>
+      <p><%= user.full_name %> - <%= user.role(user, @group.id) %> - <%= user.email %></p>
+  <% end %>
+
+  <!-- Subgroups -->
+  <% if @group.education? %>  
+    <h3>Classes</h3>
+  <% elsif @group.sports? %>
+    <h3>Teams</h3>
+  <% elsif @group.volunteer?%>
+    <h3>Committees</h3>
+  <% else %>
+    <h3>Subgroups</h3>
+  <% end %>
+    <% current_user.subgroups.each do |subgroup| %>
+      <p> <a href="/subgroups/<%= subgroup.id %>"> <%= subgroup.name %> <%= subgroup.description %> </a> </p>
+    <% end %> 
+<% end  %>

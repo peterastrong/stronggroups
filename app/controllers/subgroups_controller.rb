@@ -16,6 +16,27 @@ class SubgroupsController < ApplicationController
 
   def show
     @subgroup = Subgroup.find_by(id: params[:id])
+    if @subgroup.group.education?
+      @event = "Assignment/Event"
+      elsif @subgroup.group.sports?
+        @event = "Practice / Game"
+      elsif @subgroup.group.volunteer?
+        @event = "Event"
+    end 
+    if @subgroup.group.education?
+      @events = "Assignments/Events"
+      elsif @subgroup.group.sports?
+        @events = "Practices / Games"
+      elsif @subgroup.group.volunteer?
+        @events = "Events"
+    end
+    if @subgroup.group.education?
+      @sg = "Class"
+      elsif @subgroup.group.sports?
+        @sg = "Team"
+      elsif @subgroup.group.volunteer?
+        @sg = "Working Group"
+    end
     render "show.html.erb"
   end
 
@@ -36,4 +57,6 @@ class SubgroupsController < ApplicationController
     @subgroup.destroy
     redirect_to "/subgroups/new"
   end
+
+
 end

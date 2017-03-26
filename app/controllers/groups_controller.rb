@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
     if current_user
       @groups = current_user.groups.all
     else
-      @groups = Group.all
+      @groups = Group.all.sort
     end 
     render "index.html.erb"
   end
@@ -25,6 +25,21 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find_by(id: params[:id])
+    if current_user
+      @user_subgroups = current_user.subgroups.where(group_id: @group.id)
+    end
+    if @group.education? 
+      @editor_role = "Teacher"
+      elsif @group.sports?
+        @editor_role = "Coach"
+      else
+        @editor_role = "Editor"
+    end 
+    if @group.education? 
+      @user_role = "Student"
+      else
+        @user_role = "Member"
+    end
     render "show.html.erb"
   end
 

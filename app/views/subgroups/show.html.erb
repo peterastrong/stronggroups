@@ -1,140 +1,224 @@
-
-<h1><%= @subgroup.name %></h1>
-<p><strong>Class Description:  </strong><%= @subgroup.description %></p>
-
+<div class="row">
+  <div class="row" id="subgroup_name">
+    <div class="center">
+    <h1><%= @subgroup.name %></h1>
+    <p><strong>Class Description:  </strong><%= @subgroup.description %></p>
+    </div>
+  </div>
 
 <!-- Member Subgroup Show Page -->
   <% if current_user.member?(@subgroup.group.id) %>
-    <h3>Events/Assignments</h3>
-      <% @subgroup.events.each do |event| %>
-        <p><strong><%= event.name %>:</strong> <%= event.description %></p>
-      <% end %>
 
-    <h3>Members of this subgroup</h3>
-      <% @subgroup.users.each do |user| %>
-        <p><%= user.full_name %> - <%= user.role(user, @subgroup.group.id) %></p>
-      <% end %>
-
-    <h3>All Your Documents:</h3>
-      <% if current_user.docpics.any? %>
-        <% current_user.docpics.each do |doc| %>
-          <p><%= link_to doc.title, doc.document.url %></p>
-        <% end %>
-      <% end %>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="well boxes">
+          <h3><%= @events %></h3>
+            <% @subgroup.events.each do |event| %>
+              <p><strong><%= event.name %>:</strong> <%= event.description %></p>
+            <% end %>
+        </div>
+      </div>
+      <div class="col-md-4">  
+        <div class="well boxes">
+          <h3>Members of this subgroup</h3>
+            <% @subgroup.users.each do |user| %>
+              <p><%= user.full_name %> - <%= user.role(user, @subgroup.group.id) %></p>
+            <% end %>
+        </div>
+      </div>
+      <div class="col-md-4">
+          <div class="well boxes">
+            <% unless @subgroup.group.sports? %>
+              <h3>All Your Documents:</h3>
+                <% if current_user.docpics.any? %>
+                  <% current_user.docpics.each do |doc| %>
+                    <p><%= link_to doc.title, doc.document.url %></p>
+                  <% end %>
+                <% end %>
+            <% end %>
+          </div>
+      </div>
+    </div>          
   <% end %>
+  
 
 <!-- Admin Subgroup Show page -->
   <% if current_user.admin?(@subgroup.group.id) %>
-    <h3>Events/Assignments</h3>
-      <% @subgroup.events.each do |event| %>
-        <p><strong><%= event.name %>:</strong> <%= event.description %></p>
-      <% end %>
-
-    <h3>Members of this subgroup</h3>
-      <% @subgroup.users.each do |user| %>
-        <p><%= user.full_name %> - <%= user.role(user, @subgroup.group.id) %></p>
-      <% end %>
-
-    <h3>Documents:</h3>
-      <% if @subgroup.docpics.any? %>
-        <% @subgroup.docpics.each do |doc| %>
-          <p><%= link_to doc.title, doc.document.url %> UserName: <%= doc.user.full_name %></p>
-        <% end %>
-      <% end %>
-<!-- should only be able to add this user to the subgroup if they are a member of the group, not sure if that is the case, must test, maybe a dropdown of all /names emails in the input box for email?  -->
-    <h3>Add a user to this subgroup.  </h3>
-      <%= form_tag "/user_subgroups", method: :post do %>
-        <div>
-          <select name="id">
-            <%= @subgroup.group.users.each do |user| %>
-            <option value="<%= user.id %>"><%= user.full_name %></option>
-            <% end %>
-          </select>
-        </div>
-        <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
-        <input type="submit" value="Add User">
-      <% end %>
-<!-- add event -->
-    <h3>Add an event for this subgroup.</h3>
-      <%= form_tag "/events", method: :post do %>
-
-        <div>Event Name: <input type="text" name="name"></div>
-        <div>Description: <input type="text" name="description"></div>
-        <div>Date: <input type="date" name="date"></div>
-        <div>Registration Deadline: <input type="date" name="registration_deadline"></div>
-        <div>Due Date: <input type="date" name="due_date"></div>
-        <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
-        <input type="submit" value="Add Event">
-      <% end %>
-      <!-- update subgroup -->
-      <%= link_to "update this subgroup", "/subgroups/#{@subgroup.id}/edit"  %>
-    <h3>Add user to event</h3>  
-      <%= form_tag "/user_events", method: :post do %>
-        <div>
-          <select name="event_id">
-            <% @subgroup.events.all.each do |event| %>
-            <option value="<%= event.id %>"><%= event.name %></option>
-            <% end %>
-          </select>
-        </div>
-        <div>
-          <select name="user_id">
-            <%= @subgroup.users.each do |user| %>
-            <option value="<%= user.id %>"><%= user.full_name %></option>
-            <% end %>
-          </select>
-        </div>
-        <div>
-          <input type="submit" name="Add user to event.">
-        </div>
-      <% end %>
-  <% end %>
-
-<!-- chat -->
-  <% if current_user %>
-    <h3>GroupsTogetherChat</h3>
-      <div ng-app="app">
-        <div id="messages-<%= @subgroup.id %>" ng-controller="messagesCtrl" ng-init="setup(<%= @subgroup.id %>)">
-          <div class="message" ng-repeat="message in messages | orderBy:'created_at'">
-            {{ message.name }}: {{ message.body }}
-          </div>
-            <div>
-              <form ng-submit="createNewMessage(newMessageBody, <%= current_user.id %>, <%= @subgroup.id %>)" >
-                <label for="body">New Message: </label>
-                <input type="text" id="body" name="body" ng-model="newMessageBody">
-                <input type="submit">
-              </form>
+    <div class="row">
+        <!-- events -->
+        <div class="col-md-4">
+            <div class="well boxes">
+              <h3><%= @events %></h3>
+                <% @subgroup.events.each do |event| %>
+                  <p><strong><%= event.name %>:</strong> <%= event.description %></p>
+                  <% event.users.each do |user| %>
+                    <p><%= user.full_name %></p>
+                  <% end %>
+                <% end %>
             </div>
         </div>
-      </div>
+        <!-- members -->
+        <div class="col-md-4">
+          <div class="well boxes">
+            <h3>Members of this <%= @sg %></h3>
+              <% @subgroup.users.each do |user| %>
+                <p><%= user.full_name %> - <%= user.role(user, @subgroup.group.id) %></p>
+              <% end %>
+          </div>
+        </div>
+        <!-- documents -->
+        <% unless @subgroup.group.sports? %>  
+          <div class="col-md-4">
+            <div class="well boxes">
+              <h3>Documents:</h3>
+                <% if @subgroup.docpics.any? %>
+                  <% @subgroup.docpics.each do |doc| %>
+                    <p><%= link_to doc.title, doc.document.url %> UserName: <%= doc.user.full_name %></p>
+                  <% end %>
+                <% end %>
+            </div>
+          </div>
+        <% end %>
+    </div> 
      
-<!-- Document Uploader -->
-    <h3>Document Upload</h3>
-      <%= form_tag "/docs", method: :post, multipart: true do %>
-        <div>
-          <%= label_tag :title %>
-          <%= text_field_tag :title  %>
+    <div class="row"> 
+      <!-- add user to subgroup -->
+      <div class="col-md-4">
+        <div class="well boxes">
+          <h3>Add a user to this subgroup.  </h3>
+            <%= form_tag "/user_subgroups", method: :post do %>
+              <div>
+                <select name="id">
+                  <%= @subgroup.group.users.each do |user| %>
+                  <option value="<%= user.id %>"><%= user.full_name %></option>
+                  <% end %>
+                </select>
+              </div>
+              <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
+              <input type="submit" value="Add User">
+            <% end %>
+        </div>    
+      </div>
+      <!-- add event -->
+      <div class="col-md-4">
+        <div class="well boxes">
+          <h3>Add an <%= @event %> for this subgroup.</h3>
+            <%= form_tag "/events", method: :post do %>
+              <div>Event Name: <input type="text" name="name"></div>
+              <div>Description: <input type="text" name="description"></div>
+              <div>Date: <input type="date" name="date"></div>
+              <div>Registration Deadline: <input type="date" name="registration_deadline"></div>
+              <div>Due Date: <input type="date" name="due_date"></div>
+              <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
+              <input type="submit" value="Add Event">
+            <% end %>
         </div>
-        <div>
-          <%= label_tag :document %>
-          <%= file_field_tag :document %>
+      </div>
+   
+      <!-- add user to event -->
+      <div class="col-md-4">
+        <div class="well boxes">
+          <h3>Add user to <%= @event %></h3>  
+              <%= form_tag "/user_events", method: :post do %>
+                <div>
+                  <select name="event_id">
+                    <% @subgroup.events.all.each do |event| %>
+                    <option value="<%= event.id %>"><%= event.name %></option>
+                    <% end %>
+                  </select>
+                </div>
+                <div>
+                  <select name="user_id">
+                    <%= @subgroup.users.each do |user| %>
+                    <option value="<%= user.id %>"><%= user.full_name %></option>
+                    <% end %>
+                  </select>
+                </div>
+                <div>
+                  <input type="submit" name="Add user to event.">
+                </div>
+              <% end %>
         </div>
-        <%= hidden_field_tag :subgroup_id, @subgroup.id %>
-        <%= submit_tag 'Upload' %>
-      <% end %>
-    <h3>Email the group.</h3>
-      <%= form_tag "/subgroup_emails", method: :post do %>
-        <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
-        <div>Subject:
-          <input type="text" name="subject">
-        </div>
-        <div>
-          <textarea name="body" placeholder="Enter email text here."></textarea>
-        </div>
-        <div>
-          <input type="submit" value="Send Email">
-        </div>
-      <% end %>
-
+      </div>
+    </div>
+    <div class="row">
+      <!-- update subgroup -->
+      <div class="col-md-4">
+        <div class="well">
+          <%= link_to "update this subgroup", "/subgroups/#{@subgroup.id}/edit"  %>
+        </div> 
+      </div>
+    </div>
   <% end %>
+
+
+
+  <div class="row">
+   <!-- chat -->
+      <% if @subgroup.group.education? || @subgroup.group.volunteer? %>
+        <div class="col-md-4">
+          <div class="well boxes" >
+            <h3>GroupsTogetherChat</h3>
+              <div ng-app="app">
+                <div id="messages-<%= @subgroup.id %>" ng-controller="messagesCtrl" ng-init="setup(<%= @subgroup.id %>)">
+                  <div class="message" ng-repeat="message in messages | orderBy:'created_at'">
+                    {{ message.name }}: {{ message.body }}
+                  </div>
+                    <div>
+                      <form ng-submit="createNewMessage(newMessageBody, <%= current_user.id %>, <%= @subgroup.id %>)" >
+                        <label for="body">New Message: </label>
+                        <input type="text" id="body" name="body" ng-model="newMessageBody">
+                        <input type="submit">
+                      </form>
+                    </div>
+                </div>
+              </div>
+          </div>
+        </div>  
+      <% end %>    
+   <!-- Document Uploader -->
+      <% if @subgroup.group.education? || 
+        (@subgroup.group.volunteer? && 
+          (current_user.admin?(@subgroup.group.id) || current_user.editor?(@subgroup.group.id))) %>
+        <div class="col-md-4">
+          <div class="well boxes"><h3>Document Upload</h3>
+            <%= form_tag "/docs", method: :post, multipart: true do %>
+               <div>
+                 <%= label_tag :title %>
+                 <%= text_field_tag :title  %>
+               </div>
+               <div>
+                 <%= label_tag :document %>
+                 <%= file_field_tag :document %>
+               </div>
+               <%= hidden_field_tag :subgroup_id, @subgroup.id %>
+               <%= submit_tag 'Upload' %>
+            <% end %> 
+          </div> 
+         </div>      
+      <% end %>
+   <!-- email -->  
+      <% if current_user.admin?(@subgroup.group.id) || current_user.editor?(@subgroup.group.id) %>
+        <div class="col-md-4">    
+          <div class="well">  
+            <h3>Email the group.</h3>
+              <%= form_tag "/subgroup_emails", method: :post do %>
+                <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
+                <div>Subject:
+                  <input type="text" name="subject">
+                </div>
+                <div>
+                  <textarea name="body" placeholder="Enter email text here."></textarea>
+                </div>
+                <div>
+                  <input type="submit" value="Send Email">
+                </div>
+              <% end %>
+          </div>
+        </div>
+      <% end %>
+  </div> 
+</div>   
+
+
 

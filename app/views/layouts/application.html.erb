@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Stronggroups</title>
+    <title>GroupsTogether</title>
     
      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         
@@ -52,25 +52,14 @@
 
                   <div id="navbar-scroll" class="collapse navbar-collapse navbar-backyard navbar-right">
                       <ul class="nav navbar-nav">
-                          <li><a href="#">Private driver</a></li>
-                          <li><a href="taxi.html">Booking taxi</a></li>
-                          <li><a href="services.html">Services</a></li>
-                          <li class="ymm-sw">
-                              <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200" href="#">Blog page<b class="caret"></b> </a>
-                              <ul class="dropdown-menu navbar-nav"> 
-                                  <li><a href="blog.html">Blog</a></li>
-                                  <li><a href="single.html">Single page</a></li>
-                                  <li><a href="single-left-sidebar.html">Single left sidebar</a></li>
-                                  <li><a href="single-right-sidebar.html">Single right sidebar</a></li> 
-                              </ul>
-                          </li>
-
                           <li class="ymm-sw">
                               <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200" href="#pages">Pages <b class="caret"></b> </a>
                               <ul class="dropdown-menu navbar-nav">
                                   <li><a href="/groups">Groups</a></li>
+                                  <% if current_user %>
                                   <li><a href="/subgroups">Your Subgroups</a></li>  
                                   <li><a href="/user">Your Events</a></li>
+                                  <% end %>
                               </ul>
                           </li>  
                           <li><a href="/user">
@@ -101,13 +90,14 @@
       </div>
     <% end %>
     
-   
-    <%= yield %>
+ 
+  <%= yield %>
+
         <!-- /.footer -->
         <footer id="footer">
             <div class="footer-top">
                 <div class="container">
-                    <div class="">
+                    <div class="row">
                         <div class="col-md-4 col-sm-6">
                             <h4>Where to find us</h4>
                             <p><strong>kimaroTec.</strong>

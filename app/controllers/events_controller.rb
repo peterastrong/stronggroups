@@ -13,13 +13,18 @@ class EventsController < ApplicationController
   end
 
   def create #have not added must_register? column here
+    if params[:must_register?] == "true"
+      register = true
+    else 
+      register = false 
+    end 
     @event = Event.new(group_id: params[:group_id], 
                       subgroup_id: params[:subgroup_id],
                       name: params[:name],
                       date: params[:date],
                       description: params[:description],
                       registration_deadline: params[:registration_deadline],
-                      due_date: params[:due_date])
+                      due_date: params[:due_date], must_register?: register)
     @event.save
     @subgroup = Subgroup.find_by(id: params[:subgroup_id])
     @subgroup.users.each do |user|

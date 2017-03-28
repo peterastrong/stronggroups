@@ -2,16 +2,17 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.middle {
-
-}
-
 #subgroup_name {
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
-.boxes {
+.eventBox {
   height: 300px;
+}
+
+.scrollbox {
+  height: 200px;
   overflow: scroll;
 }
+

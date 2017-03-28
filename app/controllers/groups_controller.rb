@@ -32,14 +32,23 @@ class GroupsController < ApplicationController
       @editor_role = "Teacher"
       elsif @group.sports?
         @editor_role = "Coach"
-      else
-        @editor_role = "Editor"
+      elsif @group.volunteer?
+        @editor_role = "Committee Leader"
     end 
     if @group.education? 
       @user_role = "Student"
-      else
-        @user_role = "Member"
+    elsif @group.sports?
+      @user_role = "Participant"
+    elsif @group.volunteer?
+      @user_role = "Volunteer"
     end
+    if @group.education? 
+      @subg = "Class"
+      elsif @group.sports?
+        @subg = "Team"
+      else
+        @subg = "Committee"
+    end 
     render "show.html.erb"
   end
 

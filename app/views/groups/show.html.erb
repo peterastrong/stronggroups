@@ -1,129 +1,177 @@
-<h1><%= @group.name.capitalize %></h1>
-<p>Group description: <%= @group.description %></p>
-
-<!-- Group contact - when no current user-->
-  <% unless current_user %>
-    <p> <a href="mailto:<%=@group.email%>"> Contact the group admin</a> </p>
-  <% end %>
-
-<!-- Admin - Group Show -->
-<% if current_user && current_user.admin?(@group.id) %>
-  <!-- Members List -->
-    <h3>Members of this group</h3>
-      <% @group.users.each do |user| %>
-        <p><%= user.full_name %> - <%= user.role(user, @group.id) %> - <%= user.email %></p>
-      <% end %>
-  <!-- Subgroups -->
-    <% if @group.education? %>  
-      <h3>Classes</h3>
-    <% elsif @group.sports? %>
-      <h3>Teams</h3>
-    <% elsif @group.volunteer?%>
-      <h3>Committees</h3>
-    <% else %>
-      <h3>Subgroups</h3>
-    <% end %>
-      <% @group.subgroups.each do |subgroup| %>
-        <p> <a href="/subgroups/<%= subgroup.id %>"> <%= subgroup.name %> <%= subgroup.description %> </a> </p>
-      <% end %>
-
-  <!-- Subgroup Create Form -->
-  <h3>Create a new subgroup for this page</h3>
-    <%= form_tag "/subgroups", method: :post do %>
-      <p> <input type="hidden" name="group_id" value="<%= @group.id %>"></p> 
-      <p>name: <input type="text" name="name"></p>
-      <p>Description: <input type="text" name="description"></p>
-      <p><input type="submit" Value="Create"></p>
-    <% end %>
-
-  <!-- New USer Create Form -->
-  <div ng-app="app">
-    <div ng-controller="angularCtrl">
-      <h3>Create a new user.</h3>
-        <div ng-if="userCreated">You have been successfully added a new user. Make sure to modify their role. </div>
-        <div>
-          <input type="text" placeholder="First Name" ng-model="firstName" required> 
-        </div> 
-        <div>
-          <input type="text" placeholder="Last Name" ng-model="lastName" required>
-        </div>
-        <div>
-          <input type="email" placeholder="email" ng-model="email" required>
-        </div>
-        <div>
-          <input type="password" placeholder="password" ng-model="password" required>
-        </div>
-        <div>
-          <input type="password" placeholder="password confirmation" ng-model="passwordConfirmation" required>
-        </div>
-        <div>
-          <input type="hidden" ng-model="groupId" ng-init="groupId=<%= @group.id %>">
-        </div>
-        <div>role: 
-        <select ng-model="role">
-          <option value="admin">Admin</option>
-          <option value="editor"><%= @editor_role %></option>
-          <option value="member"><%= @user_role %></option>
-        </select>
-      </div>
-        <div>
-          <input type="button" ng-click="createUser(firstName, lastName, email, password, passwordConfirmation, groupId, role)" value="Add User">
-        </div>
+<div class="row">
+  <div class="row" id="group_name">
+    <div class="center">
+      <h1><%= @group.name.capitalize %></h1>
+      <p>Group description: <%= @group.description %></p>
     </div>
   </div>
-
-  <!-- add user_group relationship -->
-  <h3>Add a user to this group by their email address.  </h3>
-    <%= form_tag "/user_groups", method: :post do %>
-      <div>email: <input type="email" name="email"></div>
-      <div>role: 
-        <select name="role">
-          <option value="admin">Admin</option>
-          <option value="editor"><%= @editor_role %></option>
-          <option value="member"><%= @user_role %></option>
-        </select>
-      </div>
-      <input type="hidden" name="group_id" value="<%= @group.id %>">
-      <input type="submit" value="Add UserGroup relationship">
-    <% end %>
-
-  <!-- Email Group -->
-  <h3>Email the group.</h3>
-    <%= form_tag "/group_emails", method: :post do %>
-      <input type="hidden" name="group_id" value="<%= @group.id %>">
-      <div>Subject:
-        <input type="text" name="subject">
-      </div>
-      <div>
-        <textarea name="body" placeholder="Enter email text here."></textarea>
-      </div>
-      <div>
-        <input type="submit" value="Send Email">
+  <!-- Group contact - when no current user--> 
+    <% unless current_user %>
+      <div class="row center">
+        <p> <a href="mailto:<%=@group.email%>"> Contact the group admin</a> </p>
       </div>
     <% end %>
-    <%= link_to "update", "/groups/#{@group.id}/edit"  %>
-<% end %>
-
-<!-- Member - Group Show  -->
-<% if current_user && current_user.member?(@group.id) %>
-
-  <!-- Member List -->
-  <h3>Members of this group</h3>
-    <% @group.users.each do |user| %>
-      <p><%= user.full_name %> - <%= user.role(user, @group.id) %> - <%= user.email %></p>
+    
+  
+  <!-- Admin - Group Show -->
+  <% if current_user && current_user.admin?(@group.id) %>
+      <div class="row">
+            <!-- Members List -->
+        <div class="col-md-4">
+          <div class="well boxes">
+            <h3>Members of this group</h3>
+            <div class="">
+                <% @group.users.each do |user| %>
+                  <p><%= user.full_name %> - <%= user.role(@group.id) %> - <a href="mailto:<%=user.email%>"><%= user.email %></a></p>
+                <% end %>
+            </div>
+          </div>
+        </div> 
+        <!-- Subgroups -->
+        <div class="col-md-4">
+          <div class="well boxes">
+              <% if @group.education? %>  
+                <h3>Classes</h3>
+              <% elsif @group.sports? %>
+                <h3>Teams</h3>
+              <% elsif @group.volunteer?%>
+                <h3>Committees</h3>
+              <% else %>
+                <h3>Subgroups</h3>
+              <% end %>
+                <% @group.subgroups.each do |subgroup| %>
+                  <p> <a href="/subgroups/<%= subgroup.id %>"> <%= subgroup.name %>:</a> <%= subgroup.description %> </p>
+                <% end %>
+          </div>
+        </div>
+        <!-- Subgroup Create Form -->
+        <div class="col-md-4">
+          <div class="well boxes">
+            <h3>Create a new <%= @subg %>.</h3>
+              <%= form_tag "/subgroups", method: :post do %>
+                <p> <input type="hidden" name="group_id" value="<%= @group.id %>"></p> 
+                <p>Name: <input type="text" name="name"></p>
+                <p>Description: <input type="text" name="description"></p>
+                <p><input type="submit" Value="Create"></p>
+              <% end %>
+          </div>
+        </div>
+      </div>
+      <!-- New USer Create Form -->
+      <div class="row">
+        <div class="col-md-4">
+          <div class="well">
+            <div ng-app="app">
+              <div ng-controller="angularCtrl">
+                <h3>Create a new user.</h3>
+                  <div ng-if="userCreated">You have been successfully added a new user. </div>
+                  <div>
+                    <input type="text" placeholder="First Name" ng-model="firstName" required> 
+                  </div> 
+                  <div>
+                    <input type="text" placeholder="Last Name" ng-model="lastName" required>
+                  </div>
+                  <div>
+                    <input type="email" placeholder="email" ng-model="email" required>
+                  </div>
+                  <div>
+                    <input type="password" placeholder="password" ng-model="password" required>
+                  </div>
+                  <div>
+                    <input type="password" placeholder="password confirmation" ng-model="passwordConfirmation" required>
+                  </div>
+                  <div>
+                    <input type="hidden" ng-model="groupId" ng-init="groupId=<%= @group.id %>">
+                  </div>
+                  <div>role: 
+                  <select ng-model="role">
+                    <option value="admin">Admin</option>
+                    <option value="editor"><%= @editor_role %></option>
+                    <option value="member"><%= @user_role %></option>
+                  </select>
+                </div>
+                  <div>
+                    <input type="button" ng-click="createUser(firstName, lastName, email, password, passwordConfirmation, groupId, role)" value="Add User">
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <!-- add user_group relationship -->
+        <div class="col-md-4">
+          <div class="well boxes">
+            <h3>Add a user to this group by their email address.  </h3>
+              <%= form_tag "/user_groups", method: :post do %>
+                <div>email: <input type="email" name="email"></div>
+                <div>role: 
+                  <select name="role">
+                    <option value="admin">Admin</option>
+                    <option value="editor"><%= @editor_role %></option>
+                    <option value="member"><%= @user_role %></option>
+                  </select>
+                </div>
+                <input type="hidden" name="group_id" value="<%= @group.id %>">
+                <input type="submit" value="Add User to your group.">
+              <% end %>
+          </div>
+        </div>
+        <!-- Email Group -->
+        <div class="row">
+          <div class="col-md-4">
+            <div class="well">
+              <h3>Email the group.</h3>
+                <%= form_tag "/group_emails", method: :post do %>
+                  <input type="hidden" name="group_id" value="<%= @group.id %>">
+                  <div>Subject:
+                    <input type="text" name="subject">
+                  </div>
+                  <div>
+                    <textarea name="body" placeholder="Enter email text here."></textarea>
+                  </div>
+                  <div>
+                    <input type="submit" value="Send Email">
+                  </div>
+                <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="center">
+          <%= link_to "update this group", "/groups/#{@group.id}/edit"  %> 
+        </div>
+      </div> 
   <% end %>
-
-  <!-- Subgroups -->
-  <% if @group.education? %>  
-    <h3>Classes</h3>
-  <% elsif @group.sports? %>
-    <h3>Teams</h3>
-  <% elsif @group.volunteer?%>
-    <h3>Committees</h3>
-  <% else %>
-    <h3>Subgroups</h3>
-  <% end %>
-    <% @user_subgroups.each do |subgroup| %>
-      <p> <a href="/subgroups/<%= subgroup.id %>"> <%= subgroup.name %> <%= subgroup.description %> </a> </p>
-    <% end %> 
-<% end  %>
+  <!-- Member - Group Show  -->
+  <% if current_user && current_user.member?(@group.id) %>
+    <div class="row">
+      <!-- Member List -->
+      <div class="col-md-4">
+        <div class="well boxes">
+          <h3>Members of this group</h3>
+            <% @group.users.each do |user| %>
+              <p><%= user.full_name %> - <%= user.role(@group.id) %> - <a href="mailto:<%=user.email%>"><%= user.email %></a></p>
+          <% end %>
+        </div>
+      </div>
+      <!-- Subgroups -->
+      <div class="col-md-4">
+        <div class="well boxes">
+          <% if @group.education? %>  
+            <h3>Classes</h3>
+          <% elsif @group.sports? %>
+            <h3>Teams</h3>
+          <% elsif @group.volunteer?%>
+            <h3>Committees</h3>
+          <% else %>
+            <h3>Subgroups</h3>
+          <% end %>
+            <% @user_subgroups.each do |subgroup| %>
+              <p> <a href="/subgroups/<%= subgroup.id %>"> <%= subgroup.name %>: </a><%= subgroup.description %>  </p>
+            <% end %> 
+        </div>
+      </div>
+    </div>
+  <% end  %>
+</div>

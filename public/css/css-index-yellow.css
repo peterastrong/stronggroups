@@ -201,7 +201,7 @@ text-align: left;
     color: #fff;
 }
 .signup-header {
-    margin: 150px 0 100px;
+    margin: 50px 0 100px;
     background: rgba(255,255,255,0.2);
     border-radius: 4px;
     padding-left: 20px;
@@ -263,10 +263,10 @@ text-align: left;
     font-weight: 300;
 }
 #policy ,#myaccount{
-    padding: 100px 0 70px;
+    padding: 50px 0 70px;
 }
 #intro ,#myaccount,#services ,#team{
-    padding: 100px 0 70px;
+    padding: 50px 0 70px;
 }
 #intro h2 {
     font-size: 40px;
@@ -872,7 +872,7 @@ right: 0px;
     right: 31px;
 } 
 .signup-header {
-    margin: 150px 0px 100px;
+    margin: 50px 0px 100px;
     background: rgba(255, 255, 255, 0.2) none repeat scroll 0% 0%;
     border-radius: 4px;
     padding-left: 20px;

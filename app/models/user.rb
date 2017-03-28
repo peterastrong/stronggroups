@@ -32,7 +32,7 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def role(user, group_id)
-    "#{user.user_groups.find_by(group_id: group_id).role.capitalize}"
+  def role(group_id)
+    "#{user_groups.find_by(group_id: group_id).customized_role}"
   end 
 end

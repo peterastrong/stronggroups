@@ -16,7 +16,11 @@
           <h3><%= @events %></h3>
             <div class="scrollbox">
               <% @subgroup.events.each do |event| %>
-                <p><strong><%= event.name %>:</strong> <%= event.description %></p>
+                <% if !event.must_register? %>
+                  <p><strong><%= event.name %>:</strong> <%= event.description %></p>
+                <% elsif UserEvent.find_by(user_id: current_user.id, event_id: event.id, registered: true) %>
+                  <p><strong><%= event.name %>:</strong> <%= event.description %></p>  
+                <% end %>
               <% end %>
             </div>
         </div>
@@ -31,20 +35,20 @@
             </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <% unless @subgroup.group.sports? %>
+        <div class="col-md-4">
           <div class="well eventBox">
-            <% unless @subgroup.group.sports? %>
-              <h3>Documents:</h3>
-                <div class="scrollbox">
-                <% if current_user.docpics.any? %>
-                  <% current_user.docpics.each do |doc| %>
-                    <p><%= link_to doc.title, doc.document.url %></p>
-                  <% end %>
+            <h3>Documents:</h3>
+              <div class="scrollbox">
+              <% if current_user.docpics.any? %>
+                <% current_user.docpics.each do |doc| %>
+                  <p><%= link_to doc.title, doc.document.url %> UserName: <%= doc.user.full_name %></p>
                 <% end %>
-                </div>
-            <% end %>
+              <% end %>
+            </div>
           </div>
-      </div>
+        </div>
+      <% end %>
     </div>          
   <% end %>
   

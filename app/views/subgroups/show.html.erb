@@ -12,30 +12,36 @@
 
     <div class="row">
       <div class="col-md-4">
-        <div class="well boxes">
+        <div class="well eventBox">
           <h3><%= @events %></h3>
-            <% @subgroup.events.each do |event| %>
-              <p><strong><%= event.name %>:</strong> <%= event.description %></p>
-            <% end %>
+            <div class="scrollbox">
+              <% @subgroup.events.each do |event| %>
+                <p><strong><%= event.name %>:</strong> <%= event.description %></p>
+              <% end %>
+            </div>
         </div>
       </div>
       <div class="col-md-4">  
-        <div class="well boxes">
-          <h3>Members of this subgroup</h3>
-            <% @subgroup.users.each do |user| %>
-              <p><%= user.full_name %> - <%= user.role(@subgroup.group.id) %></p>
-            <% end %>
+        <div class="well eventBox">
+          <h3>Members of this <%= @sg %></h3>
+            <div class="mscrollbox">
+              <% @subgroup.users.each do |user| %>
+                <p><%= user.full_name %> - <%= user.role(@subgroup.group.id) %></p>
+              <% end %>
+            </div>
         </div>
       </div>
       <div class="col-md-4">
-          <div class="well boxes">
+          <div class="well eventBox">
             <% unless @subgroup.group.sports? %>
-              <h3>All Your Documents:</h3>
+              <h3>Documents:</h3>
+                <div class="scrollbox">
                 <% if current_user.docpics.any? %>
                   <% current_user.docpics.each do |doc| %>
                     <p><%= link_to doc.title, doc.document.url %></p>
                   <% end %>
                 <% end %>
+                </div>
             <% end %>
           </div>
       </div>
@@ -43,28 +49,36 @@
   <% end %>
   
 
-  <!-- Admin Subgroup Show page -->
-  <% if current_user.admin?(@subgroup.group.id) %>
+  <!-- Admin/Editor Subgroup Show page -->
+  <% if current_user.admin?(@subgroup.group.id) || current_user.editor?(@subgroup.group.id) %>
     <div class="row">
         <!-- events -->
         <div class="col-md-4">
             <div class="well eventBox">
               <h3><%= @events %></h3>
-                <div class="scrollbox">
+                <div class="mscrollbox">
                   <% @subgroup.events.each do |event| %>
                     <p><strong><%= event.name %>:</strong> <%= event.description %></p>
-                    <% event.users.each do |user| %>
-                      <p><%= user.full_name %></p>
-                    <% end %>
+                      <% if event.must_register? %>
+                        <% event.users.each do |user| %>
+                          <% if UserEvent.find_by(user_id: user.id, event_id: event.id).registered %>
+                            <p>Registered! <%= user.full_name %></p>
+                          <% end %>
+                        <% end %>
+                      <% else %>
+                        <% event.users.each do |user| %>
+                          <p><%= user.full_name %></p>
+                        <% end %>
+                      <% end %>
                   <% end %>
                 </div>
             </div>
         </div>
         <!-- members -->
         <div class="col-md-4">
-          <div class="well eventbox">
+          <div class="well eventBox">
             <h3>Members of this <%= @sg %></h3>
-              <div class="scrollbox">
+              <div class="mscrollbox">
                 <% @subgroup.users.each do |user| %>
                   <p><%= user.full_name %> - <%= user.role(@subgroup.group.id) %></p>
                 <% end %>
@@ -74,13 +88,15 @@
         <!-- documents -->
         <% unless @subgroup.group.sports? %>  
           <div class="col-md-4">
-            <div class="well boxes">
+            <div class="well eventBox">
               <h3>Documents:</h3>
+              <div class="scrollbox">
                 <% if @subgroup.docpics.any? %>
                   <% @subgroup.docpics.each do |doc| %>
                     <p><%= link_to doc.title, doc.document.url %> UserName: <%= doc.user.full_name %></p>
                   <% end %>
                 <% end %>
+                </div>
             </div>
           </div>
         <% end %>
@@ -152,14 +168,6 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <!-- update subgroup -->
-      <div class="col-md-4">
-        <div class="well">
-          <%= link_to "update this subgroup", "/subgroups/#{@subgroup.id}/edit"  %>
-        </div> 
-      </div>
-    </div>
   <% end %>
 
 
@@ -168,20 +176,24 @@
    <!-- chat -->
       <% if @subgroup.group.education? || @subgroup.group.volunteer? %>
         <div class="col-md-4">
-          <div class="well boxes" >
+          <div class="well eventBox" >
             <h3>GroupsTogetherChat</h3>
-              <div ng-app="app">
-                <div id="messages-<%= @subgroup.id %>" ng-controller="messagesCtrl" ng-init="setup(<%= @subgroup.id %>)">
-                  <div class="message" ng-repeat="message in messages | orderBy:'created_at'">
-                    {{ message.name }}: {{ message.body }}
-                  </div>
-                    <div>
-                      <form ng-submit="createNewMessage(newMessageBody, <%= current_user.id %>, <%= @subgroup.id %>)" >
-                        <label for="body">New Message: </label>
-                        <input type="text" id="body" name="body" ng-model="newMessageBody">
-                        <input type="submit">
-                      </form>
+              <div >
+                <div ng-app="app">
+                  <div id="messages-<%= @subgroup.id %>" ng-controller="messagesCtrl" ng-init="setup(<%= @subgroup.id %>)">
+                    <div class="scrollbox">
+                    <div class="message" ng-repeat="message in messages | orderBy:'created_at':true">
+                      {{ message.name }}: {{ message.body }}
                     </div>
+                    </div>
+                      <div>
+                        <form ng-submit="createNewMessage(newMessageBody, <%= current_user.id %>, <%= @subgroup.id %>)" >
+                          <label for="body">New Message: </label>
+                          <input type="text" id="body" name="body" ng-model="newMessageBody">
+                          <input type="submit">
+                        </form>
+                      </div>
+                  </div>
                 </div>
               </div>
           </div>
@@ -192,26 +204,30 @@
         (@subgroup.group.volunteer? && 
           (current_user.admin?(@subgroup.group.id) || current_user.editor?(@subgroup.group.id))) %>
         <div class="col-md-4">
-          <div class="well boxes"><h3>Document Upload</h3>
-            <%= form_tag "/docs", method: :post, multipart: true do %>
-               <div>
-                 <%= label_tag :title %>
-                 <%= text_field_tag :title  %>
-               </div>
-               <div>
-                 <%= label_tag :document %>
-                 <%= file_field_tag :document %>
-               </div>
-               <%= hidden_field_tag :subgroup_id, @subgroup.id %>
-               <%= submit_tag 'Upload' %>
-            <% end %> 
+          <div class="well eventBox">
+            <h3>Document Upload</h3>
+              <div >
+                <%= form_tag "/docs", method: :post, multipart: true do %>
+                   <div>
+                     <%= label_tag :title %>
+                     <%= text_field_tag :title  %>
+                   </div>
+                   <div>
+                     <%= label_tag :document %>
+                     <%= file_field_tag :document %>
+                   </div>
+                   <%= hidden_field_tag :subgroup_id, @subgroup.id %>
+                   <%= submit_tag 'Upload' %>
+                <% end %>
+              </div> 
           </div> 
-         </div>      
+        </div>      
       <% end %>
+
    <!-- email -->  
       <% if current_user.admin?(@subgroup.group.id) || current_user.editor?(@subgroup.group.id) %>
         <div class="col-md-4">    
-          <div class="well">  
+          <div class="well eventBox">  
             <h3>Email the group.</h3>
               <%= form_tag "/subgroup_emails", method: :post do %>
                 <input type="hidden" name="subgroup_id" value="<%= @subgroup.id %>">
@@ -231,5 +247,15 @@
   </div> 
 </div>   
 
+<% if current_user.admin?(@subgroup.group.id) %>
+  <div class="row">
+    <!-- update subgroup -->
+    <div class="col-md-4">
+      <div class="well">
+        <%= link_to "update this subgroup", "/subgroups/#{@subgroup.id}/edit" %>
+      </div> 
+    </div>
+  </div>
+<% end %>
 
 

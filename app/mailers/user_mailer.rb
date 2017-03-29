@@ -10,7 +10,7 @@ class UserMailer < ApplicationMailer
 
   def subgroup_emails(subgroup_id, subject, body)
     @subgroup = Subgroup.find_by(id: subgroup_id)
-    @subject = subject
+    @subject = "#{@subgroup.name}: #{subject}"  
     @body = body
     mail(to: @subgroup.users.pluck(:email), subject: @subject)
   end

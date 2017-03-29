@@ -143,21 +143,25 @@
         </div>
       </div> 
   <% end %>
-  <!-- Member - Group Show  -->
-  <% if current_user && current_user.member?(@group.id) %>
+  <!-- Member & Editor - Group Show  -->
+  <% if current_user && (current_user.member?(@group.id) || current_user.editor?(@group.id)) %>
     <div class="row">
+      <div class="col-md-1">
+      </div>
       <!-- Member List -->
-      <div class="col-md-4">
-        <div class="well boxes">
+      <div class="col-md-6">
+        <div class="well m_e_box">
           <h3>Members of this group</h3>
+          <div class="sb2">
             <% @group.users.each do |user| %>
               <p><%= user.full_name %> - <%= user.role(@group.id) %> - <a href="mailto:<%=user.email%>"><%= user.email %></a></p>
-          <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
       <!-- Subgroups -->
       <div class="col-md-4">
-        <div class="well boxes">
+        <div class="well m_e_box">
           <% if @group.education? %>  
             <h3>Classes</h3>
           <% elsif @group.sports? %>
@@ -171,6 +175,8 @@
               <p> <a href="/subgroups/<%= subgroup.id %>"> <%= subgroup.name %>: </a><%= subgroup.description %>  </p>
             <% end %> 
         </div>
+      </div>
+      <div class="col-md-1">
       </div>
     </div>
   <% end  %>

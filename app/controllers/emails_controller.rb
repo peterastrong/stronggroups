@@ -7,7 +7,7 @@ class EmailsController < ApplicationController
 
   def subgroup_emails
     UserMailer.subgroup_emails(params[:subgroup_id], params[:subject], params[:body]).deliver_now
-    redirect_to "/user"
+    redirect_to "/subgroups/#{params[:subgroup_id]}"
   end
 
 

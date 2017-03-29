@@ -9,8 +9,7 @@ class SubgroupsController < ApplicationController
   def create
     @subgroup = Subgroup.new(group_id: params[:group_id], name: params[:name], description: params[:description])
     @subgroup.save
-    UserSubgroup.create(user_id: current_user.id, subgroup_id: @subgroup.id)
-    #find a way to add editors and members at same time? 
+    UserSubgroup.create(user_id: current_user.id, subgroup_id: @subgroup.id) 
     redirect_to "/subgroups/#{@subgroup.id}" 
   end
 

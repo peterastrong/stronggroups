@@ -11,17 +11,18 @@
     <div>
       <%= form_tag "/login", method: :post do %>
         <div class="well">
-          Email: <input type="email" name="email">
+          <div class="well">
+            Email: <input type="email" name="email">
+          </div>
+        
+          <div class="well">
+            Password: <input type="password" name="password">
+          </div>
+        
+          <div class="well">
+            <input type="submit" name="Log In">
+          </div>
         </div>
-
-        <div class="well">
-          Password: <input type="password" name="password">
-        </div>
-
-        <div class="well">
-          <input type="submit" name="Log In">
-        </div>
-
         <% end %>
     </div>
   </div>

@@ -34,6 +34,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'pry'
 
+gem 'seed_dump'
+
 gem 'paperclip', '~> 5.0.0'
 
 # Use Capistrano for deployment
